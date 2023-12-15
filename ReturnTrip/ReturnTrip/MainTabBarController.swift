@@ -1,6 +1,11 @@
 import UIKit
 
+//MARK: - Final class MainTabBarController
+
 final class MainTabBarController: UITabBarController {
+    
+    
+//MARK: - Properties of class
     
     private let locationsViewController = LocationsViewController()
     private let saveViewController = SaveViewController()
@@ -8,6 +13,10 @@ final class MainTabBarController: UITabBarController {
     private let toolsViewController = ToolsViewController()
     private let settingsViewController = SettingsViewController()
 
+    
+    
+//MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,3 +50,4 @@ final class MainTabBarController: UITabBarController {
         self.viewControllers = [locationsNavigationController, saveNavigationController, naviViewController, toolsNavigationController, settingsViewController]
     }
 }
+

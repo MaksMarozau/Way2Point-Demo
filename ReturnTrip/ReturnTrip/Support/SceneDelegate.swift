@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         let tabBarController = MainTabBarController()
-        tabBarController.colorsScheme()
+        tabBarController.customeColorsScheme()
         
         window.rootViewController = tabBarController
         
