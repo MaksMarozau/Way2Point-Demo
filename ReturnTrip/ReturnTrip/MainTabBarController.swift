@@ -31,7 +31,7 @@ final class MainTabBarController: UITabBarController {
     private func configItemsUI() {
         
         locationsViewController.tabBarItem = UITabBarItem(title: "Locations", image: UIImage(systemName: "location.fill.viewfinder"), tag: 0)
-        saveViewController.tabBarItem = UITabBarItem(title: "Save", image: UIImage(systemName: "square.and.arrow.down.fill"), tag: 1)
+        saveViewController.tabBarItem = UITabBarItem(title: "Save", image: UIImage(systemName: "square.and.arrow.down"), tag: 1)
         naviViewController.tabBarItem = UITabBarItem(title: "Navi", image: UIImage(systemName: "location.fill"), tag: 2)
         toolsViewController.tabBarItem = UITabBarItem(title: "Tools", image: UIImage(systemName: "squareshape.split.2x2"), tag: 3)
         settingsViewController.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "slider.horizontal.3"), tag: 4)

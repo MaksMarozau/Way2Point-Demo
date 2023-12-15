@@ -11,16 +11,17 @@ final class LocationsViewController: UIViewController {
 
     
     
-//MARK: - Lifecycle
+//MARK: - Lifecycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
-//        
+        tableView.register(LocationsTableViewCell.self, forCellReuseIdentifier: "LocationsTableViewCell")
+        
         view.addSubview(tableView)
-//
+
         constraintes()
         configureUI()
     }
@@ -39,10 +40,10 @@ final class LocationsViewController: UIViewController {
     private func constraintes() {
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -2).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12).isActive = true
     }
     
     
@@ -51,8 +52,8 @@ final class LocationsViewController: UIViewController {
     
     private func configureUI () {
         tableView.backgroundColor = .clear
-        tableView.separatorStyle = .singleLine
-        
+        tableView.separatorStyle = .none
+        tableView.rowHeight = UITableView.automaticDimension
     }
 }
 
@@ -69,7 +70,8 @@ extension LocationsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "some")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "LocationsTableViewCell", for: indexPath) as? LocationsTableViewCell else { return UITableViewCell() }
+        
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
         return cell
