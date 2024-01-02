@@ -74,10 +74,12 @@ extension LocationsViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
+        
+        cell.openCloseDescriptionSupport = { [weak self] in
+            self?.tableView.beginUpdates()
+            self?.tableView.endUpdates()
+        }
+        
         return cell
     }
-    
-    
-    
-    
 }

@@ -7,16 +7,38 @@ class LocationsTableViewCell: UITableViewCell {
     
 //MARK: - Properties of class
     
+    //MARK: - Properties for UI creating
+    
+    //global views
+    private let markedVisualEffectView = UIView()
+    private let globalVisualEffectView = UIView()
     private let globalContainerView = UIView()
     
-    private let nameView = UIView()
-    private let gpsView = UIView()
+    //struct SubViews
+    private let topView = UIView()
+    private let photosVisualEffectView = UIView()
     private let photosCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    private let sepparatorView = UIView()
     private let descriptionView = UIView()
     
+    //topView's SubViews
+    private let topStackView = UIStackView()
     private let topButton = UIButton()
+    private let numberLabel = UILabel()
+    
+    //descriptionView's SubViews
+    private let descriptionLabel = UILabel()
+    private let openDescriptionButton = UIButton()
+    
+    //topStackView's SubViews
     private let nameLable = UILabel()
-    private let markButton = UIButton()
+    private let gpsOfLocationsLabel = UILabel()
+    
+    
+    
+    //MARK: - Supporting properties
+    
+    var openCloseDescriptionSupport: (() -> ())?
     
     
     
@@ -25,13 +47,11 @@ class LocationsTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super .init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.addSubview(globalContainerView)
-        globalContainerView.addSubwiews(views: nameView, gpsView, photosCollectionView, descriptionView)
-        nameView.addSubwiews(views: topButton, nameLable, markButton)
-        
-        constraintes()
+        addSubViews()
+        setConstraintes()
         configureUI()
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -39,75 +59,134 @@ class LocationsTableViewCell: UITableViewCell {
     
     
     
+//MARK: - Adding of subViews
+    
+    private func addSubViews() {
+        
+        contentView.addSubviews(views: markedVisualEffectView, globalVisualEffectView, globalContainerView)
+        
+        globalContainerView.addSubviews(views: topView, photosVisualEffectView, photosCollectionView, sepparatorView, descriptionView)
+        
+        topView.addSubviews(views: topButton, topStackView, numberLabel)
+        descriptionView.addSubviews(views: descriptionLabel, openDescriptionButton)
+        
+        topStackView.addArrangedSubviews(views: nameLable, gpsOfLocationsLabel)
+    }
+    
+    
+    
 //MARK: - Constraintes
     
-    private func constraintes() {
+    private func setConstraintes() {
+        
+        //contentView SubViews constraintes:
+        //markedVisualEffectView
+        markedVisualEffectView.translatesAutoresizingMaskIntoConstraints = false
+        markedVisualEffectView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        markedVisualEffectView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        markedVisualEffectView.widthAnchor.constraint(equalToConstant: 55).isActive = true
+        markedVisualEffectView.heightAnchor.constraint(equalToConstant: 55).isActive = true
+//        markedVisualEffectView.isHidden = true
+        
+        
+        //globalVisualEffectView
+        globalVisualEffectView.translatesAutoresizingMaskIntoConstraints = false
+        globalVisualEffectView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
+        globalVisualEffectView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        globalVisualEffectView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        globalVisualEffectView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        
         
         //globalContainerView
         globalContainerView.translatesAutoresizingMaskIntoConstraints = false
-        globalContainerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
-        globalContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        globalContainerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 17).isActive = true
+        globalContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
         globalContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         globalContainerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        
 
         
         //globalContainerView's subViews constraintes:
-        //nameView
-        nameView.translatesAutoresizingMaskIntoConstraints = false
-        nameView.topAnchor.constraint(equalTo: globalContainerView.topAnchor, constant: 5).isActive = true
-        nameView.leadingAnchor.constraint(equalTo: globalContainerView.leadingAnchor, constant: 12).isActive = true
-        nameView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor, constant: -12).isActive = true
-        nameView.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        //topView
+        topView.translatesAutoresizingMaskIntoConstraints = false
+        topView.topAnchor.constraint(equalTo: globalContainerView.topAnchor, constant: 5).isActive = true
+        topView.leadingAnchor.constraint(equalTo: globalContainerView.leadingAnchor, constant: 12).isActive = true
+        topView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor, constant: -12).isActive = true
+        topView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        
-        //gpsView
-        gpsView.translatesAutoresizingMaskIntoConstraints = false
-        gpsView.topAnchor.constraint(equalTo: nameView.bottomAnchor, constant: 5).isActive = true
-        gpsView.leadingAnchor.constraint(equalTo: globalContainerView.leadingAnchor, constant: 12).isActive = true
-        gpsView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor, constant: -12).isActive = true
-        gpsView.heightAnchor.constraint(equalToConstant: 25).isActive = true
+ 
+        //photosVisualEffectView
+        photosVisualEffectView.translatesAutoresizingMaskIntoConstraints = false
+        photosVisualEffectView.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 5).isActive = true
+        photosVisualEffectView.leadingAnchor.constraint(equalTo: globalContainerView.leadingAnchor, constant: 10).isActive = true
+        photosVisualEffectView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor).isActive = true
+        photosVisualEffectView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
         
         //photosCollectionView
         photosCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        photosCollectionView.topAnchor.constraint(equalTo: gpsView.bottomAnchor, constant: 5).isActive = true
-        photosCollectionView.leadingAnchor.constraint(equalTo: globalContainerView.leadingAnchor, constant: 12).isActive = true
+        photosCollectionView.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 7).isActive = true
+        photosCollectionView.leadingAnchor.constraint(equalTo: globalContainerView.leadingAnchor, constant: 14).isActive = true
         photosCollectionView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor).isActive = true
         photosCollectionView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
         
+        //sepparatorView
+        sepparatorView.translatesAutoresizingMaskIntoConstraints = false
+        sepparatorView.topAnchor.constraint(equalTo: photosCollectionView.bottomAnchor,constant: 5).isActive = true
+        sepparatorView.widthAnchor.constraint(equalTo: globalContainerView.widthAnchor).isActive = true
+        sepparatorView.heightAnchor.constraint(equalToConstant: 3).isActive = true
+        
+
         //descriptionView
         descriptionView.translatesAutoresizingMaskIntoConstraints = false
-        descriptionView.topAnchor.constraint(equalTo: photosCollectionView.bottomAnchor, constant: 5).isActive = true
-        descriptionView.leadingAnchor.constraint(equalTo: globalContainerView.leadingAnchor, constant: 12).isActive = true
-        descriptionView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor, constant: -12).isActive = true
-        descriptionView.bottomAnchor.constraint(equalTo: globalContainerView.bottomAnchor, constant: -5).isActive = true
-        descriptionView.heightAnchor.constraint(equalToConstant: 60).isActive = true
-
+        descriptionView.topAnchor.constraint(equalTo: sepparatorView.bottomAnchor).isActive = true
+        descriptionView.leadingAnchor.constraint(equalTo: globalContainerView.leadingAnchor).isActive = true
+        descriptionView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor).isActive = true
+        descriptionView.bottomAnchor.constraint(equalTo: globalContainerView.bottomAnchor).isActive = true
+        descriptionView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60).isActive = true
         
-        //nameView's subViews constraintes:
+        
+        
+        //topView's subViews constraintes:
+        //topStackView
+        topStackView.translatesAutoresizingMaskIntoConstraints = false
+        topStackView.centerXAnchor.constraint(equalTo: topView.centerXAnchor).isActive = true
+        topStackView.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
+        topStackView.heightAnchor.constraint(equalTo: topView.heightAnchor, multiplier: 1).isActive = true
+        topStackView.widthAnchor.constraint(equalTo: topView.widthAnchor, multiplier: 0.7).isActive = true
+        
+        
         //topbutton
         topButton.translatesAutoresizingMaskIntoConstraints = false
-        topButton.topAnchor.constraint(equalTo: nameView.topAnchor).isActive = true
-        topButton.leadingAnchor.constraint(equalTo: nameView.leadingAnchor).isActive = true
-        topButton.bottomAnchor.constraint(equalTo: nameView.bottomAnchor).isActive = true
-        topButton.widthAnchor.constraint(equalTo: nameView.widthAnchor, multiplier: 0.1).isActive = true
+        topButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
+        topButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor).isActive = true
+        topButton.widthAnchor.constraint(equalTo: topView.widthAnchor, multiplier: 0.15).isActive = true
+        topButton.heightAnchor.constraint(equalTo: topButton.heightAnchor).isActive = true
         
         
-        //markButton
-        markButton.translatesAutoresizingMaskIntoConstraints = false
-        markButton.topAnchor.constraint(equalTo: nameView.topAnchor).isActive = true
-        markButton.trailingAnchor.constraint(equalTo: nameView.trailingAnchor).isActive = true
-        markButton.bottomAnchor.constraint(equalTo: nameView.bottomAnchor).isActive = true
-        markButton.widthAnchor.constraint(equalTo: nameView.widthAnchor, multiplier: 0.1).isActive = true
-
+        //numberLabel
+        numberLabel.translatesAutoresizingMaskIntoConstraints = false
+        numberLabel.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
+        numberLabel.leadingAnchor.constraint(equalTo: topView.leadingAnchor).isActive = true
+        numberLabel.widthAnchor.constraint(equalTo: topView.widthAnchor, multiplier: 0.15).isActive = true
+        numberLabel.heightAnchor.constraint(equalTo: topButton.heightAnchor).isActive = true
         
-        //nameLable
-        nameLable.translatesAutoresizingMaskIntoConstraints = false
-        nameLable.topAnchor.constraint(equalTo: nameView.topAnchor).isActive = true
-        nameLable.leadingAnchor.constraint(equalTo: topButton.trailingAnchor).isActive = true
-        nameLable.trailingAnchor.constraint(equalTo: markButton.leadingAnchor).isActive = true
-        nameLable.bottomAnchor.constraint(equalTo: nameView.bottomAnchor).isActive = true
+        
+        
+        //descriptionView's subViews constraintes:
+        //descriptionLabel
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        descriptionLabel.topAnchor.constraint(equalTo: descriptionView.topAnchor, constant: 5).isActive = true
+        descriptionLabel.leadingAnchor.constraint(equalTo: descriptionView.leadingAnchor, constant: 12).isActive = true
+        descriptionLabel.trailingAnchor.constraint(equalTo: descriptionView.trailingAnchor, constant: -12).isActive = true
+        
+        
+        //openDescriptionButton
+        openDescriptionButton.translatesAutoresizingMaskIntoConstraints = false
+        openDescriptionButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 5).isActive = true
+        openDescriptionButton.bottomAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: -5).isActive = true
+        openDescriptionButton.widthAnchor.constraint(equalTo: descriptionView.widthAnchor, multiplier: 1).isActive = true
     }
     
     
@@ -116,45 +195,106 @@ class LocationsTableViewCell: UITableViewCell {
     
     private func configureUI() {
         
+        //Global views
+        markedVisualEffectView.backgroundColor = .yellow
+        markedVisualEffectView.layer.borderColor = UIColor.black.cgColor
+        markedVisualEffectView.layer.borderWidth = 1
+        
+        globalVisualEffectView.backgroundColor = .violetFlower
+        globalVisualEffectView.layer.cornerRadius = 50
+        globalVisualEffectView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMaxYCorner]
+        globalVisualEffectView.clipsToBounds = true
+        
         globalContainerView.backgroundColor = .backgroundCell
         globalContainerView.layer.borderColor = UIColor.itemUnselected.cgColor
-        globalContainerView.layer.borderWidth = 1
+        globalContainerView.layer.borderWidth = 2
+        globalContainerView.layer.cornerRadius = 40
+        globalContainerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMaxYCorner]
+        globalContainerView.clipsToBounds = true
         
-        nameLable.textColor = .black
-        nameLable.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        
+        //globalContainerView's subViews configurations
+        topView.backgroundColor = .backgroundCell
+        
+        topStackView.backgroundColor = .clear
+        topStackView.axis = .vertical
+        topStackView.distribution = .fillProportionally
+        topStackView.spacing = 5
+        
+        photosVisualEffectView.backgroundColor = .violetFlower
+        photosVisualEffectView.layer.cornerRadius = 15
+        photosVisualEffectView.layer.maskedCorners = [.layerMinXMinYCorner]
+        
+        photosCollectionView.backgroundColor = .systemGray5
+        photosCollectionView.layer.cornerRadius = 10
+        photosCollectionView.layer.maskedCorners = [.layerMinXMinYCorner]
+        
+        sepparatorView.backgroundColor = .violetRose
+        
+        descriptionView.backgroundColor = .backgroundCellSupport
+        
+        
+        //nameView's subViews configurations:
+        nameLable.backgroundColor = .clear
+        nameLable.font = UIFont(name: "Futura Bold", size: 21)
+        nameLable.textColor = .standartBlack
+        nameLable.shadowOffset = CGSize(width: 2, height: 2)
+        nameLable.shadowColor = .standartWhite
         nameLable.textAlignment = .center
         nameLable.text = "Some Name"
-//        nameLable.backgroundColor = .backgroundCell
         
+        gpsOfLocationsLabel.backgroundColor = .clear
+        gpsOfLocationsLabel.font = UIFont(name: "Hoefler Text Black Italic", size: 17)
+        gpsOfLocationsLabel.textColor = .violetRose
+        gpsOfLocationsLabel.textAlignment = .center
+        gpsOfLocationsLabel.text = "gps: 47.38547, 6.03875"
         
-        topButton.setAttributedSysImage(imageSize: CGSize(width: 30, height: 30), image: UIImage(systemName: "arrowshape.up.fill"), attributes: [.foregroundColor : UIColor.itemUnselected], state: .normal)
+        topButton.setAttributedSysImage(imageSize: CGSize(width: 25, height: 25), image: UIImage(systemName: "arrowshape.up.fill"), attributes: [.foregroundColor : UIColor.itemUnselected], state: .normal)
         topButton.setAttributedSysImage(imageSize: CGSize(width: 30, height: 30), image: UIImage(systemName: "arrowshape.up.fill"), attributes: [.foregroundColor : UIColor.itemSelected], state: .highlighted)
         topButton.addTarget(self, action: #selector(topTapped), for: .touchUpInside)
         
+        numberLabel.backgroundColor = .clear
+        numberLabel.font = UIFont(name: "Futura Bold", size: 24)
+        numberLabel.textColor = .standartBlack
+        numberLabel.shadowOffset = CGSize(width: 2, height: 2)
+        numberLabel.shadowColor = .standartWhite
+        numberLabel.textAlignment = .center
+        numberLabel.text = "#1"
+
+
+        //descriptionView's subView configurations:
+        descriptionLabel.backgroundColor = .clear
+        descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        descriptionLabel.textColor = .standartBlack
+        descriptionLabel.textAlignment = .left
+        descriptionLabel.numberOfLines = 1
+        descriptionLabel.text = "Приятное место на опушке леса, где не водятся комары и есть место для безопасного разведения костра."
         
-        
-        markButton.setAttributedSysImage(imageSize: CGSize(width: 30, height: 30), image: UIImage(systemName: "star"), attributes: [.foregroundColor : UIColor.itemUnselected], state: .normal)
-        markButton.addTarget(self, action: #selector(markTapped), for: .touchUpInside)
-        
-        
-        gpsView.backgroundColor = .backgroundCell
-        photosCollectionView.backgroundColor = .systemGray5
-        descriptionView.backgroundColor = .backgroundCell
-        
+        openDescriptionButton.backgroundColor = .clear
+        openDescriptionButton.setImage(UIImage(systemName: "chevron.compact.down"), for: .normal)
+        openDescriptionButton.tintColor = .itemUnselected
+        openDescriptionButton.addTarget(self, action: #selector(openTapped), for: .touchUpInside)
     }
     
-    @objc func topTapped() {
+    
+    
+//MARK: - Actions
+    
+    @objc private func topTapped() {
         print("TOPTOP")
     }
     
-    @objc private func markTapped() {
-        print("markMark")
-        markButton.isSelected.toggle()
-        if markButton.isSelected {
-            markButton.setAttributedSysImage(imageSize: CGSize(width: 30, height: 30), image: UIImage(systemName: "star.fill"), attributes: [.foregroundColor : UIColor.itemSelected], state: .normal)
-            
+    
+    @objc private func openTapped() {
+        openDescriptionButton.isSelected.toggle()
+        if openDescriptionButton .isSelected {
+            openDescriptionButton.setImage(UIImage(systemName: "chevron.compact.up"), for: .normal)
+            descriptionLabel.numberOfLines = 0
+            openCloseDescriptionSupport?()
         } else {
-            markButton.setAttributedSysImage(imageSize: CGSize(width: 30, height: 30), image: UIImage(systemName: "star"), attributes: [.foregroundColor : UIColor.itemUnselected], state: .normal)
+            openDescriptionButton.setImage(UIImage(systemName: "chevron.compact.down"), for: .normal)
+            descriptionLabel.numberOfLines = 1
+            openCloseDescriptionSupport?()
         }
     }
 }
