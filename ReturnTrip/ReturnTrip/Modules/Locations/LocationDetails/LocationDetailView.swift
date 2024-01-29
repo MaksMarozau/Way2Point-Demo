@@ -15,24 +15,49 @@ final class LocationDetailView: UIViewController {
     
 //MARK: - Properties of class
     
+    //the main struct views
     private let globalContainerView = UIView()
-    
     private let topVisualEffectView = UIView()
     private let topContainerView = UIView()
     private let bottomContainerView = UIView()
     
+    //topContainerView's subViews
+    private let nameLocationLable = UILabel()
+    private let assistentInfoView = UIView()
+    private let imagesCollactionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+        //assistentInfoView's subViews
+        private let gpsLable = UILabel()
+        private let marksVerticalStackView = UIStackView()
+        
+        //marksCollectionView's subViews
+        private let iconHorizontalStackView = UIStackView()
+        private let titleHorizontalStackView = UIStackView()
+        
+        private let editIconImageView = UIImageView()
+        private let ratingIconImageView = UIImageView()
+        private let shareIconImageView = UIImageView()
+        
+        private let editTitleLabel = UILabel()
+        private let ratingTitleLabel = UILabel()
+        private let shareTitleLabel = UILabel()
+
+    //bottomContainerView's subViews
     private let topSepatatorView = UIView()
     private let botSeparatorView = UIView()
     private let buttonsView = UIView()
     private let descriptionView = UIView()
     
-    private let descriptionScrollView = UIScrollView()
-    private let descriptionLabel = UILabel()
+        //descriptionView's subviews
+        private let descriptionScrollView = UIScrollView()
+        private let descriptionTitleLabel = UILabel()
+        private let descriptionLabel = UILabel()
     
+        //buttonsView's subviews
+        private let moveButton = UIButton()
+        private let deleteButton = UIButton()
     
-    
-    
-    
+  
     
 //MARK: - Lifecycle of controller
     
@@ -68,16 +93,23 @@ final class LocationDetailView: UIViewController {
         
         view.addSubview(globalContainerView)
         
-        globalContainerView.addSubviews(views: topVisualEffectView, bottomContainerView, buttonsView)
+        globalContainerView.addSubviews(views: topVisualEffectView, bottomContainerView)
         globalContainerView.sendSubviewToBack(bottomContainerView)
-        globalContainerView.bringSubviewToFront(buttonsView)
-        
         topVisualEffectView.addSubview(topContainerView)
-
-        bottomContainerView.addSubviews(views: topSepatatorView, botSeparatorView, descriptionView)
         
-        descriptionView.addSubview(descriptionScrollView)
+        bottomContainerView.addSubviews(views: topSepatatorView, botSeparatorView, buttonsView, descriptionView)
+        topContainerView.addSubviews(views: nameLocationLable, assistentInfoView, imagesCollactionView)
+        
+        assistentInfoView.addSubviews(views: gpsLable, marksVerticalStackView)
+        marksVerticalStackView.addArrangedSubviews(views: iconHorizontalStackView, titleHorizontalStackView)
+        
+        iconHorizontalStackView.addArrangedSubviews(views: editIconImageView, ratingIconImageView, shareIconImageView)
+        titleHorizontalStackView.addArrangedSubviews(views: editTitleLabel, ratingTitleLabel, shareTitleLabel)
+        
+        descriptionView.addSubviews(views: descriptionTitleLabel, descriptionScrollView)
         descriptionScrollView.addSubview(descriptionLabel)
+        
+        buttonsView.addSubviews(views: moveButton, deleteButton)
     }
     
     
@@ -86,6 +118,7 @@ final class LocationDetailView: UIViewController {
     
     private func setConstraintes() {
         
+        //the Main struct views
         globalContainerView.translatesAutoresizingMaskIntoConstraints = false
         globalContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12).isActive = true
         globalContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12).isActive = true
@@ -99,13 +132,6 @@ final class LocationDetailView: UIViewController {
         topVisualEffectView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor, constant: -3).isActive = true
         topVisualEffectView.heightAnchor.constraint(equalTo: globalContainerView.heightAnchor, multiplier: 0.6).isActive = true
         
-        bottomContainerView.translatesAutoresizingMaskIntoConstraints = false
-        bottomContainerView.topAnchor.constraint(equalTo: topVisualEffectView.bottomAnchor, constant: -15).isActive = true
-        bottomContainerView.leadingAnchor.constraint(equalTo: globalContainerView.leadingAnchor).isActive = true
-        bottomContainerView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor).isActive = true
-        bottomContainerView.bottomAnchor.constraint(equalTo: globalContainerView.bottomAnchor).isActive = true
-        
-        
         
         topContainerView.translatesAutoresizingMaskIntoConstraints = false
         topContainerView.topAnchor.constraint(equalTo: topVisualEffectView.topAnchor, constant: 17).isActive = true
@@ -114,11 +140,57 @@ final class LocationDetailView: UIViewController {
         topContainerView.bottomAnchor.constraint(equalTo: topVisualEffectView.bottomAnchor, constant: -17).isActive = true
         
         
+        bottomContainerView.translatesAutoresizingMaskIntoConstraints = false
+        bottomContainerView.topAnchor.constraint(equalTo: topVisualEffectView.bottomAnchor, constant: -15).isActive = true
+        bottomContainerView.leadingAnchor.constraint(equalTo: globalContainerView.leadingAnchor).isActive = true
+        bottomContainerView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor).isActive = true
+        bottomContainerView.bottomAnchor.constraint(equalTo: globalContainerView.bottomAnchor).isActive = true
+        
+        
+        //topContainerView's subViews
+        nameLocationLable.translatesAutoresizingMaskIntoConstraints = false
+        nameLocationLable.topAnchor.constraint(equalTo: topContainerView.topAnchor, constant: 5).isActive = true
+        nameLocationLable.leadingAnchor.constraint(equalTo: topContainerView.leadingAnchor).isActive = true
+        nameLocationLable.trailingAnchor.constraint(equalTo: topContainerView.trailingAnchor).isActive = true
+        nameLocationLable.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        
+        assistentInfoView.translatesAutoresizingMaskIntoConstraints = false
+        assistentInfoView.bottomAnchor.constraint(equalTo: topContainerView.bottomAnchor, constant: -5).isActive = true
+        assistentInfoView.leadingAnchor.constraint(equalTo: topContainerView.leadingAnchor).isActive = true
+        assistentInfoView.trailingAnchor.constraint(equalTo: topContainerView.trailingAnchor).isActive = true
+        assistentInfoView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        
+        imagesCollactionView.translatesAutoresizingMaskIntoConstraints = false
+        imagesCollactionView.topAnchor.constraint(equalTo: nameLocationLable.bottomAnchor, constant: 12).isActive = true
+        imagesCollactionView.leadingAnchor.constraint(equalTo: topContainerView.leadingAnchor).isActive = true
+        imagesCollactionView.trailingAnchor.constraint(equalTo: topContainerView.trailingAnchor).isActive = true
+        imagesCollactionView.bottomAnchor.constraint(equalTo: gpsLable.topAnchor, constant: -12).isActive = true
+        
+        
+        //assistentInfoView's subViews
+        gpsLable.translatesAutoresizingMaskIntoConstraints = false
+        gpsLable.centerYAnchor.constraint(equalTo: assistentInfoView.centerYAnchor).isActive = true
+        gpsLable.leadingAnchor.constraint(equalTo: assistentInfoView.leadingAnchor).isActive = true
+        gpsLable.widthAnchor.constraint(equalTo: assistentInfoView.widthAnchor, multiplier: 0.4).isActive = true
+        gpsLable.heightAnchor.constraint(equalTo: assistentInfoView.heightAnchor).isActive = true
+        
+        
+        marksVerticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        marksVerticalStackView.centerYAnchor.constraint(equalTo: assistentInfoView.centerYAnchor).isActive = true
+        marksVerticalStackView.leadingAnchor.constraint(equalTo: gpsLable.trailingAnchor).isActive = true
+        marksVerticalStackView.trailingAnchor.constraint(equalTo: assistentInfoView.trailingAnchor).isActive = true
+        marksVerticalStackView.heightAnchor.constraint(equalTo: assistentInfoView.heightAnchor).isActive = true
+
+        
+        //bottomContainerView's subViews
         topSepatatorView.translatesAutoresizingMaskIntoConstraints = false
         topSepatatorView.topAnchor.constraint(equalTo: topVisualEffectView.bottomAnchor, constant: 5).isActive = true
         topSepatatorView.leadingAnchor.constraint(equalTo: bottomContainerView.leadingAnchor, constant: 12).isActive = true
         topSepatatorView.trailingAnchor.constraint(equalTo: bottomContainerView.trailingAnchor, constant: -12).isActive = true
         topSepatatorView.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        
         
         botSeparatorView.translatesAutoresizingMaskIntoConstraints = false
         botSeparatorView.bottomAnchor.constraint(equalTo: bottomContainerView.bottomAnchor, constant: -80).isActive = true
@@ -126,11 +198,13 @@ final class LocationDetailView: UIViewController {
         botSeparatorView.trailingAnchor.constraint(equalTo: bottomContainerView.trailingAnchor, constant: -12).isActive = true
         botSeparatorView.heightAnchor.constraint(equalToConstant: 2).isActive = true
         
+        
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
         buttonsView.topAnchor.constraint(equalTo: botSeparatorView.bottomAnchor, constant: 5).isActive = true
         buttonsView.leadingAnchor.constraint(equalTo: bottomContainerView.leadingAnchor, constant: 12).isActive = true
         buttonsView.trailingAnchor.constraint(equalTo: bottomContainerView.trailingAnchor, constant: -12).isActive = true
         buttonsView.bottomAnchor.constraint(equalTo: bottomContainerView.bottomAnchor).isActive = true
+        
         
         descriptionView.translatesAutoresizingMaskIntoConstraints = false
         descriptionView.topAnchor.constraint(equalTo: topSepatatorView.bottomAnchor).isActive = true
@@ -139,8 +213,16 @@ final class LocationDetailView: UIViewController {
         descriptionView.bottomAnchor.constraint(equalTo: botSeparatorView.topAnchor).isActive = true
         
         
+        //descriptionView's subViews
+        descriptionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        descriptionTitleLabel.topAnchor.constraint(equalTo: descriptionView.topAnchor, constant: 5).isActive = true
+        descriptionTitleLabel.leadingAnchor.constraint(equalTo: topSepatatorView.leadingAnchor).isActive = true
+        descriptionTitleLabel.trailingAnchor.constraint(equalTo: topSepatatorView.trailingAnchor).isActive = true
+        descriptionTitleLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        
         descriptionScrollView.translatesAutoresizingMaskIntoConstraints = false
-        descriptionScrollView.topAnchor.constraint(equalTo: descriptionView.topAnchor, constant:  5).isActive = true
+        descriptionScrollView.topAnchor.constraint(equalTo: descriptionTitleLabel.bottomAnchor, constant:  5).isActive = true
         descriptionScrollView.leadingAnchor.constraint(equalTo: descriptionView.leadingAnchor, constant:  5).isActive = true
         descriptionScrollView.trailingAnchor.constraint(equalTo: descriptionView.trailingAnchor, constant:  -5).isActive = true
         descriptionScrollView.bottomAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant:  -5).isActive = true
@@ -150,6 +232,21 @@ final class LocationDetailView: UIViewController {
         descriptionLabel.topAnchor.constraint(equalTo: descriptionScrollView.topAnchor).isActive = true
         descriptionLabel.widthAnchor.constraint(equalTo: descriptionScrollView.widthAnchor, multiplier: 1).isActive = true
         descriptionLabel.bottomAnchor.constraint(equalTo: descriptionScrollView.bottomAnchor).isActive = true
+        
+        
+        //buttonsView's subviews
+        moveButton.translatesAutoresizingMaskIntoConstraints = false
+        moveButton.leadingAnchor.constraint(equalTo: buttonsView.leadingAnchor, constant: 10).isActive = true
+        moveButton.centerYAnchor.constraint(equalTo: buttonsView.centerYAnchor).isActive = true
+        moveButton.widthAnchor.constraint(equalTo: buttonsView.widthAnchor, multiplier: 0.45).isActive = true
+        moveButton.heightAnchor.constraint(equalTo: buttonsView.heightAnchor, multiplier: 0.6).isActive = true
+        
+        
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        deleteButton.trailingAnchor.constraint(equalTo: buttonsView.trailingAnchor, constant: -10).isActive = true
+        deleteButton.centerYAnchor.constraint(equalTo: buttonsView.centerYAnchor).isActive = true
+        deleteButton.widthAnchor.constraint(equalTo: buttonsView.widthAnchor, multiplier: 0.45).isActive = true
+        deleteButton.heightAnchor.constraint(equalTo: buttonsView.heightAnchor, multiplier: 0.6).isActive = true
     }
     
     
@@ -158,6 +255,7 @@ final class LocationDetailView: UIViewController {
     
     private func configureUI() {
         
+        //global views
         view.backgroundColor = .backgroundView
         
         globalContainerView.backgroundColor = .black
@@ -174,9 +272,6 @@ final class LocationDetailView: UIViewController {
         topVisualEffectView.clipsToBounds = true
         
         bottomContainerView.backgroundColor = .backgroundLiteGray
-//        bottomContainerView.layer.borderWidth = 12
-//        bottomContainerView.layer.borderColor = UIColor.violetFlower.cgColor
-        
         
         topContainerView.backgroundColor = .backgroundCell
         topContainerView.layer.cornerRadius = 12
@@ -184,7 +279,63 @@ final class LocationDetailView: UIViewController {
         topContainerView.clipsToBounds = true
         
         
+        //topContainerView's subViews
+        nameLocationLable.backgroundColor = .clear
+        nameLocationLable.font = UIFont(name: "Futura Bold", size: 21)
+        nameLocationLable.textColor = .standartBlack
+        nameLocationLable.shadowOffset = CGSize(width: 3, height: 3)
+        nameLocationLable.shadowColor = .standartWhite
+        nameLocationLable.textAlignment = .center
+        nameLocationLable.numberOfLines = 1
+        nameLocationLable.text = "Name of Location"
         
+        imagesCollactionView.backgroundColor = .backgroundBar
+
+        gpsLable.backgroundColor = .clear
+        gpsLable.font = UIFont(name: "Hoefler Text Black Italic", size: 17)
+        gpsLable.textColor = .violetRose
+        gpsLable.textAlignment = .left
+        gpsLable.numberOfLines = 3
+        gpsLable.text = "GPS: \nlat: 47.38547, \nlong: 6.03875"
+        
+        marksVerticalStackView.axis = .vertical
+        marksVerticalStackView.distribution = .fillProportionally
+        
+        iconHorizontalStackView.axis = .horizontal
+        iconHorizontalStackView.distribution = .fillEqually
+        
+        titleHorizontalStackView.axis = .horizontal
+        titleHorizontalStackView.distribution = .fillEqually
+        
+        //stackViews subViews
+        editIconImageView.image = UIImage(systemName: "doc.richtext")
+        editIconImageView.contentMode = .scaleAspectFit
+        editIconImageView.tintColor = .violetRose
+        
+        ratingIconImageView.image = UIImage(systemName: "list.number")
+        ratingIconImageView.contentMode = .scaleAspectFit
+        ratingIconImageView.tintColor = .violetRose
+
+        shareIconImageView.image = UIImage(systemName: "shared.with.you")
+        shareIconImageView.contentMode = .scaleAspectFit
+        shareIconImageView.tintColor = .violetRose
+        
+        editTitleLabel.font = .systemFont(ofSize: 15, weight: .bold)
+        editTitleLabel.textAlignment = .center
+        editTitleLabel.textColor = .violetRose
+        editTitleLabel.text = "Edit"
+        
+        ratingTitleLabel.font = .systemFont(ofSize: 15, weight: .bold)
+        ratingTitleLabel.textAlignment = .center
+        ratingTitleLabel.textColor = .violetRose
+        ratingTitleLabel.text = "Rating"
+        
+        shareTitleLabel.font = .systemFont(ofSize: 15, weight: .bold)
+        shareTitleLabel.textAlignment = .center
+        shareTitleLabel.textColor = .violetRose
+        shareTitleLabel.text = "Share"
+        
+        //bottomContainerView's subViews
         topSepatatorView.backgroundColor = .violetFlower
         botSeparatorView.backgroundColor = .violetFlower
         
@@ -195,22 +346,51 @@ final class LocationDetailView: UIViewController {
         buttonsView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         buttonsView.clipsToBounds = true
         
-        descriptionView.backgroundColor = .backgroundCellSupport
-        descriptionScrollView.backgroundColor = .clear
+        descriptionView.backgroundColor = .backgroundLiteGray
+        
+        //descriptionView's subViews
+        descriptionTitleLabel.backgroundColor = .clear
+        descriptionTitleLabel.font = UIFont(name: "Futura Bold", size: 21)
+        descriptionTitleLabel.textColor = .standartBlack
+        descriptionTitleLabel.shadowOffset = CGSize(width: 3, height: 3)
+        descriptionTitleLabel.shadowColor = .standartWhite
+        descriptionTitleLabel.textAlignment = .center
+        descriptionTitleLabel.numberOfLines = 1
+        descriptionTitleLabel.text = "Description"
+        
+        descriptionScrollView.backgroundColor = .backgroundCellSupport
         
         descriptionLabel.textColor = .standartBlack
         descriptionLabel.font = UIFont.systemFont(ofSize: 14, weight: .black)
         descriptionLabel.numberOfLines = 0
         descriptionLabel.text = "SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ "
+        
+        moveButton.backgroundColor = .backgroundCellSupport
+        moveButton.setTitle("Move to", for: .normal)
+        moveButton.setTitleColor(.itemSelected, for: .normal)
+        moveButton.setTitleColor(.itemUnselected, for: .highlighted)
+        moveButton.titleLabel?.font = UIFont(name: "Futura Bold", size: 18)
+        moveButton.layer.cornerRadius = 10
+        moveButton.layer.borderWidth = 1
+        moveButton.layer.borderColor = UIColor.violetFlower.cgColor
+        
+        deleteButton.backgroundColor = .backgroundCellSupport
+        deleteButton.setTitle("Delete", for: .normal)
+        deleteButton.setTitleColor(.itemUnselected, for: .normal)
+        deleteButton.setTitleColor(.itemSelected, for: .highlighted)
+        deleteButton.titleLabel?.font = UIFont(name: "Futura Bold", size: 18)
+        deleteButton.layer.cornerRadius = 10
+        deleteButton.layer.borderWidth = 1
+        deleteButton.layer.borderColor = UIColor.violetFlower.cgColor
     }
     
     
     
 //MARK: - Works out before view will start
     
-    private func viewWillStart() {
-        
-    }
+//    private func viewWillStart() {
+//        
+//    }
 }
 
 
