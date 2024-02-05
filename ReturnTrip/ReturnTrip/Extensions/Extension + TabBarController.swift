@@ -13,7 +13,9 @@ extension UITabBarController {
         
         appearance.backgroundColor = .backgroundBar
         appearance.stackedLayoutAppearance.normal.iconColor = .itemUnselected
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor : UIColor.itemUnselected]
         appearance.stackedLayoutAppearance.selected.iconColor = .itemSelected
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor : UIColor.itemSelected]
         
         tabBar.standardAppearance = appearance
         tabBar.scrollEdgeAppearance = appearance
