@@ -7,8 +7,8 @@ final class MainTabBarController: UITabBarController {
     
 //MARK: - Properties of class
     
-    private let locationsViewController = LocationsViewController()
-    private let saveViewController = SaveViewController()
+    private let locationsViewController = LocationsView()
+    private let saveViewController = SaveView()
     private let naviViewController = NaviViewController()
     private let toolsViewController = ToolsViewController()
     private let settingsViewController = SettingsViewController()

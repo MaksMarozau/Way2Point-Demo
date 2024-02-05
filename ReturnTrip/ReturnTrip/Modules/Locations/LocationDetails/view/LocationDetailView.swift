@@ -1,6 +1,6 @@
 import UIKit
 
-//MARK: - Protocol for extention MainScreenView with MVP-archetecture's methods
+//MARK: - Protocol for extention MainScreenView with
 
 protocol LocationDetailViewInputProtocol: AnyObject {
     

@@ -1,8 +1,8 @@
 import UIKit
 
-//MARK: - Final class LocationsViewController
+//MARK: - Final class LocationsView
 
-final class LocationsViewController: UIViewController {
+final class LocationsView: UIViewController {
     
     
 //MARK: - Properties of class
@@ -60,9 +60,9 @@ final class LocationsViewController: UIViewController {
 
 
 
-//MARK: Extentions for class LocationsViewController [UITableViewDelegate, UITableViewDataSource]
+//MARK: Extentions for class LocationsView [UITableViewDelegate, UITableViewDataSource]
 
-extension LocationsViewController: UITableViewDelegate, UITableViewDataSource {
+extension LocationsView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 20
