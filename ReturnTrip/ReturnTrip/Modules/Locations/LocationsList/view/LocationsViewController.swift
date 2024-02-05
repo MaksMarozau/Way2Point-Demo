@@ -30,7 +30,8 @@ final class LocationsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.customColorsScheme() 
+        title = "locations"
+        navigationController?.customColorsScheme()
     }
     
     

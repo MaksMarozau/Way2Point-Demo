@@ -25,10 +25,15 @@ final class LocationDetailView: UIViewController {
     private let nameLocationLable = UILabel()
     private let assistentInfoView = UIView()
     private let imagesCollactionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let favoriteButton = UIButton()
     
         //assistentInfoView's subViews
         private let gpsLable = UILabel()
         private let marksVerticalStackView = UIStackView()
+    
+        private let editButton = UIButton()
+        private let ratingButton = UIButton()
+        private let shareButton = UIButton()
         
         //marksCollectionView's subViews
         private let iconHorizontalStackView = UIStackView()
@@ -56,7 +61,7 @@ final class LocationDetailView: UIViewController {
         //buttonsView's subviews
         private let moveButton = UIButton()
         private let deleteButton = UIButton()
-    
+        
   
     
 //MARK: - Lifecycle of controller
@@ -67,13 +72,14 @@ final class LocationDetailView: UIViewController {
         addSubViews()
         setConstraintes()
         configureUI()
+        setButtonsTargets()
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //            configureNavigationBar()
+        configureNavigationBar()
     }
     
     
@@ -82,7 +88,8 @@ final class LocationDetailView: UIViewController {
 
     private func configureNavigationBar() {
         
-        
+        title = "details"
+        navigationController?.customColorsScheme()
     }
     
    
@@ -98,9 +105,10 @@ final class LocationDetailView: UIViewController {
         topVisualEffectView.addSubview(topContainerView)
         
         bottomContainerView.addSubviews(views: topSepatatorView, botSeparatorView, buttonsView, descriptionView)
-        topContainerView.addSubviews(views: nameLocationLable, assistentInfoView, imagesCollactionView)
+        topContainerView.addSubviews(views: nameLocationLable, favoriteButton, assistentInfoView, imagesCollactionView)
         
-        assistentInfoView.addSubviews(views: gpsLable, marksVerticalStackView)
+        
+        assistentInfoView.addSubviews(views: gpsLable, marksVerticalStackView, editButton, ratingButton, shareButton)
         marksVerticalStackView.addArrangedSubviews(views: iconHorizontalStackView, titleHorizontalStackView)
         
         iconHorizontalStackView.addArrangedSubviews(views: editIconImageView, ratingIconImageView, shareIconImageView)
@@ -169,6 +177,13 @@ final class LocationDetailView: UIViewController {
         imagesCollactionView.bottomAnchor.constraint(equalTo: gpsLable.topAnchor, constant: -12).isActive = true
         
         
+        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        favoriteButton.centerYAnchor.constraint(equalTo: nameLocationLable.centerYAnchor).isActive = true
+        favoriteButton.trailingAnchor.constraint(equalTo: nameLocationLable.trailingAnchor, constant: -5).isActive = true
+        favoriteButton.heightAnchor.constraint(equalTo: nameLocationLable.heightAnchor).isActive = true
+        favoriteButton.widthAnchor.constraint(equalTo: nameLocationLable.heightAnchor, multiplier: 1).isActive = true
+        
+        
         //assistentInfoView's subViews
         gpsLable.translatesAutoresizingMaskIntoConstraints = false
         gpsLable.centerYAnchor.constraint(equalTo: assistentInfoView.centerYAnchor).isActive = true
@@ -182,8 +197,26 @@ final class LocationDetailView: UIViewController {
         marksVerticalStackView.leadingAnchor.constraint(equalTo: gpsLable.trailingAnchor).isActive = true
         marksVerticalStackView.trailingAnchor.constraint(equalTo: assistentInfoView.trailingAnchor).isActive = true
         marksVerticalStackView.heightAnchor.constraint(equalTo: assistentInfoView.heightAnchor).isActive = true
-
         
+        
+        editButton.translatesAutoresizingMaskIntoConstraints = false
+        editButton.leadingAnchor.constraint(equalTo: marksVerticalStackView.leadingAnchor).isActive = true
+        editButton.heightAnchor.constraint(equalTo: marksVerticalStackView.heightAnchor).isActive = true
+        editButton.widthAnchor.constraint(equalTo: marksVerticalStackView.widthAnchor, multiplier: 0.33).isActive = true
+        
+        
+        shareButton.translatesAutoresizingMaskIntoConstraints = false
+        shareButton.trailingAnchor.constraint(equalTo: marksVerticalStackView.trailingAnchor).isActive = true
+        shareButton.heightAnchor.constraint(equalTo: marksVerticalStackView.heightAnchor).isActive = true
+        shareButton.widthAnchor.constraint(equalTo: marksVerticalStackView.widthAnchor, multiplier: 0.33).isActive = true
+        
+        
+        ratingButton.translatesAutoresizingMaskIntoConstraints = false
+        ratingButton.leadingAnchor.constraint(equalTo: editButton.trailingAnchor).isActive = true
+        ratingButton.trailingAnchor.constraint(equalTo: shareButton.leadingAnchor).isActive = true
+        ratingButton.heightAnchor.constraint(equalTo: marksVerticalStackView.heightAnchor).isActive = true
+        
+                
         //bottomContainerView's subViews
         topSepatatorView.translatesAutoresizingMaskIntoConstraints = false
         topSepatatorView.topAnchor.constraint(equalTo: topVisualEffectView.bottomAnchor, constant: 5).isActive = true
@@ -289,6 +322,9 @@ final class LocationDetailView: UIViewController {
         nameLocationLable.numberOfLines = 1
         nameLocationLable.text = "Name of Location"
         
+        favoriteButton.setBackgroundImage(UIImage(systemName: "star"), for: .normal)
+        favoriteButton.tintColor = .yellow
+        
         imagesCollactionView.backgroundColor = .backgroundBar
 
         gpsLable.backgroundColor = .clear
@@ -382,6 +418,46 @@ final class LocationDetailView: UIViewController {
         deleteButton.layer.cornerRadius = 10
         deleteButton.layer.borderWidth = 1
         deleteButton.layer.borderColor = UIColor.violetFlower.cgColor
+    }
+    
+    
+    
+//MARK: - Targets for buttons
+    
+    private func setButtonsTargets() {
+        
+        favoriteButton.addTarget(self, action: #selector(favoriteTapped), for: .touchUpInside)
+        editButton.addTarget(self, action: #selector(editTapped), for: .touchUpInside)
+        ratingButton.addTarget(self, action: #selector(ratingTapped), for: .touchUpInside)
+        shareButton.addTarget(self, action: #selector(shareTapped), for: .touchUpInside)
+    }
+    
+    
+    
+//MARK: - Actions
+    
+    @objc private func favoriteTapped() {
+        favoriteButton.isSelected.toggle()
+        if favoriteButton.isSelected {
+            favoriteButton.setBackgroundImage(UIImage(systemName: "star.fill"), for: .normal)
+        } else {
+            favoriteButton.setBackgroundImage(UIImage(systemName: "star"), for: .normal)
+        }
+    }
+    
+    
+    @objc private func editTapped() {
+        print("Edit tapped")
+    }
+    
+    
+    @objc private func ratingTapped() {
+        print("Rating tapped")
+    }
+    
+    
+    @objc private func shareTapped() {
+        print("Share tapped")
     }
     
     
