@@ -30,7 +30,8 @@ final class LocationsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.customColorsScheme() 
+        title = "locations"
+        navigationController?.customColorsScheme()
     }
     
     
@@ -79,7 +80,12 @@ extension LocationsViewController: UITableViewDelegate, UITableViewDataSource {
             self?.tableView.beginUpdates()
             self?.tableView.endUpdates()
         }
-        
         return cell
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let controller = LocationDetailView()
+        navigationController?.pushViewController(controller, animated: true)
     }
 }

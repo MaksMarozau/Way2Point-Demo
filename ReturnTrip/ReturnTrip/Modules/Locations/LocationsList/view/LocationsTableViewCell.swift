@@ -86,7 +86,7 @@ class LocationsTableViewCell: UITableViewCell {
         markedVisualEffectView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         markedVisualEffectView.widthAnchor.constraint(equalToConstant: 55).isActive = true
         markedVisualEffectView.heightAnchor.constraint(equalToConstant: 55).isActive = true
-//        markedVisualEffectView.isHidden = true
+        markedVisualEffectView.isHidden = true
         
         
         //globalVisualEffectView
