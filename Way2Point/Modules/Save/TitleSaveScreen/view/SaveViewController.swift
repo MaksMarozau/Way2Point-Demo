@@ -131,7 +131,11 @@ final class SaveView: UIViewController {
         UIView.animate(withDuration: 0.1) {
             sender.layer.shadowOffset = CGSize(width: 5, height: 5)
             sender.backgroundColor = .backgroundCell
+        } completion: { _ in
+           
         }
+        let controller = AddImagesView()
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     
@@ -139,9 +143,10 @@ final class SaveView: UIViewController {
 //MARK: - Animations
     
     private func setAnimations() {
-        
         UIView.animate(withDuration: 1.5, delay: 1, options: [.autoreverse, .repeat]) {
             self.instructionLabel.alpha = 0.1
+        } completion: { _ in
+            self.instructionLabel.alpha = 1
         }
     }
 }
