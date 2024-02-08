@@ -14,6 +14,10 @@ final class AddImagesView: UIViewController {
     private let imagesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
     
+    private let descriptionContainerView = UIView()
+    private let nameOfLocationTextField = UITextField()
+    private let descriptionOfLocationTextView = UITextView()
+    
     
     
 //MARK: - Lifecycle of controller
@@ -25,6 +29,7 @@ final class AddImagesView: UIViewController {
         setConstraintes()
         configureUI()
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -41,6 +46,18 @@ final class AddImagesView: UIViewController {
         navigationItem.hidesBackButton = true
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Add new"
+        
+        let saveButton = UIBarButtonItem(systemItem: .save, primaryAction: UIAction(handler: { _ in
+            
+        }))
+        
+        saveButton.tintColor = UIColor.violetRose
+        saveButton.style = .done
+        navigationController?.topViewController?.navigationItem.rightBarButtonItem = saveButton
+        
+        navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .close, primaryAction: UIAction(handler: { _ in
+            
+        }))
     }
     
     
@@ -49,11 +66,14 @@ final class AddImagesView: UIViewController {
     
     private func addSubviews() {
         
-        view.addSubviews(views: imageContainerView)
+        view.addSubviews(views: imageContainerView, descriptionContainerView)
         
         imageContainerView.addSubviews(views: titleImageView, addImageButton, collectionsBackgroundView)
         imageContainerView.bringSubviewToFront(addImageButton)
         collectionsBackgroundView.addSubviews(views: blurEffectView, imagesCollectionView)
+        
+        descriptionContainerView.addSubviews(views: nameOfLocationTextField, descriptionOfLocationTextView)
+        
     }
     
     
@@ -65,10 +85,17 @@ final class AddImagesView: UIViewController {
         imageContainerView.translatesAutoresizingMaskIntoConstraints = false
         imageContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 33).isActive = true
         imageContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        imageContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         imageContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
         imageContainerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.35).isActive = true
         
+        descriptionContainerView.translatesAutoresizingMaskIntoConstraints = false
+        descriptionContainerView.topAnchor.constraint(equalTo: imageContainerView.bottomAnchor, constant: 33).isActive = true
+        descriptionContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -33).isActive = true
+        descriptionContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        descriptionContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
+        
+        
+        //imageContainerView's subviews
         titleImageView.translatesAutoresizingMaskIntoConstraints = false
         titleImageView.topAnchor.constraint(equalTo: imageContainerView.topAnchor).isActive = true
         titleImageView.centerXAnchor.constraint(equalTo: imageContainerView.centerXAnchor).isActive = true
@@ -95,6 +122,20 @@ final class AddImagesView: UIViewController {
         imagesCollectionView.bottomAnchor.constraint(equalTo: collectionsBackgroundView.bottomAnchor, constant: -9).isActive = true
         imagesCollectionView.leadingAnchor.constraint(equalTo: collectionsBackgroundView.leadingAnchor, constant: 9).isActive = true
         imagesCollectionView.trailingAnchor.constraint(equalTo: collectionsBackgroundView.trailingAnchor, constant: -9).isActive = true
+        
+        
+        //descriptionContainerView's subviews
+        nameOfLocationTextField.translatesAutoresizingMaskIntoConstraints = false
+        nameOfLocationTextField.topAnchor.constraint(equalTo: descriptionContainerView.topAnchor, constant: 9).isActive = true
+        nameOfLocationTextField.leadingAnchor.constraint(equalTo: descriptionContainerView.leadingAnchor, constant: 9).isActive = true
+        nameOfLocationTextField.trailingAnchor.constraint(equalTo: descriptionContainerView.trailingAnchor, constant: -9).isActive = true
+        nameOfLocationTextField.heightAnchor.constraint(equalTo: descriptionContainerView.heightAnchor, multiplier: 0.18).isActive = true
+
+        descriptionOfLocationTextView.translatesAutoresizingMaskIntoConstraints = false
+        descriptionOfLocationTextView.topAnchor.constraint(equalTo: nameOfLocationTextField.bottomAnchor, constant: 9).isActive = true
+        descriptionOfLocationTextView.leadingAnchor.constraint(equalTo: descriptionContainerView.leadingAnchor, constant: 9).isActive = true
+        descriptionOfLocationTextView.trailingAnchor.constraint(equalTo: descriptionContainerView.trailingAnchor, constant: -9).isActive = true
+        descriptionOfLocationTextView.bottomAnchor.constraint(equalTo: descriptionContainerView.bottomAnchor, constant: -9).isActive = true
     }
     
     
@@ -112,6 +153,17 @@ final class AddImagesView: UIViewController {
         imageContainerView.layer.shadowOpacity = 0.5
         imageContainerView.layer.shadowRadius = 8
         
+        descriptionContainerView.backgroundColor = .backgroundCell
+        descriptionContainerView.layer.cornerRadius = 10
+        descriptionContainerView.layer.borderWidth = 3
+        descriptionContainerView.layer.borderColor = UIColor.violetFlower.cgColor
+        descriptionContainerView.layer.shadowColor = UIColor.violetRose.cgColor
+        descriptionContainerView.layer.shadowOffset = CGSize(width: 3, height: 3)
+        descriptionContainerView.layer.shadowOpacity = 0.5
+        descriptionContainerView.layer.shadowRadius = 8
+        
+        
+        //imageContainerView's subviews
         titleImageView.backgroundColor = .backgroundBar
         titleImageView.layer.cornerRadius = 10
         
@@ -127,6 +179,28 @@ final class AddImagesView: UIViewController {
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         imagesCollectionView.backgroundColor = .backgroundCell
+        imagesCollectionView.layer.borderWidth = 1
+        imagesCollectionView.layer.borderColor = UIColor.violetFlower.cgColor
+        
+        
+        //descriptionContainerView's subviews
+        nameOfLocationTextField.backgroundColor = .backgroundCellSupport
+        nameOfLocationTextField.layer.borderWidth = 1
+        nameOfLocationTextField.layer.borderColor = UIColor.violetFlower.cgColor
+        nameOfLocationTextField.textAlignment = .center
+        nameOfLocationTextField.borderStyle = .line
+        nameOfLocationTextField.textColor = .standartBlack
+        nameOfLocationTextField.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        nameOfLocationTextField.placeholder = "Enter the name of location, please"
+        
+        descriptionOfLocationTextView.backgroundColor = .backgroundCellSupport
+        descriptionOfLocationTextView.layer.borderWidth = 1
+        descriptionOfLocationTextView.layer.borderColor = UIColor.violetFlower.cgColor
+        descriptionOfLocationTextView.delegate = self
+        descriptionOfLocationTextView.text = "Enter the description of location, please"
+        descriptionOfLocationTextView.textColor = .placeholderText
+        descriptionOfLocationTextView.font = UIFont.systemFont(ofSize: 17)
+        descriptionOfLocationTextView.textAlignment = .center
     }
     
     
@@ -136,5 +210,30 @@ final class AddImagesView: UIViewController {
     @objc private func addImageTapped() {
         
         print("AddImageTapp!")
+    }
+}
+
+
+
+//MARK: - Extension for class AddImagesView with UITextView's delegate protocol to put/put away a placeholder
+
+extension AddImagesView: UITextViewDelegate {
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if descriptionOfLocationTextView.text == "Enter the description of location, please" {
+            descriptionOfLocationTextView.text = nil
+            descriptionOfLocationTextView.textColor = .standartBlack
+            descriptionOfLocationTextView.textAlignment = .left
+        }
+        
+
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if descriptionOfLocationTextView.text.isEmpty {
+            descriptionOfLocationTextView.text = "Enter the description of location, please"
+            descriptionOfLocationTextView.textColor = .lightGray
+            descriptionOfLocationTextView.textAlignment = .center
+        }
     }
 }
