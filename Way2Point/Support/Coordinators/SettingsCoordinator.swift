@@ -1,8 +1,21 @@
-//
-//  SettingsCoordinator.swift
-//  Way2Point
-//
-//  Created by Maks on 20.02.24.
-//
+import UIKit
 
-import Foundation
+final class SettingsCoordinator {
+    
+    let rootViewController: SettingsView
+    let navigationController: UINavigationController
+    
+    init() {
+        self.navigationController = UINavigationController()
+        self.rootViewController = SettingsView()
+        
+//        let viewModel = SaveViewModel()
+        let view = rootViewController
+//        view.viewModel = viewModel
+    }
+    
+    
+    func start() {
+        navigationController.pushViewController(rootViewController, animated: true)
+    }
+}

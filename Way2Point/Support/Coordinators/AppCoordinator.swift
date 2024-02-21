@@ -1,95 +1,118 @@
 import UIKit
 
-class AppCoordinator {
+//MARK: - Final class AppCoordinator - Creating and managing for TabBarController
+
+final class AppCoordinator {
+    
+    
+//MARK: - Properties of class
     
     let window: UIWindow
-    var locationsCoordinator: LocationsCoordinator?
+    
+    private var locationsCoordinator: LocationsCoordinator?
+    private var saveCoordinator: SaveCoordinator?
+    private var navigationCoordinator: NavigationCoordinator?
+    private var toolsCoordinator: ToolsCoordinator?
+    private var settingsCoordinator: SettingsCoordinator?
+
+    private var controllers: [UIViewController] = []
+    
+    
+// MARK: - Initializator of class
     
     init(window: UIWindow) {
         self.window = window
     }
     
+    
+//MARK: - Start of coordinator
+    
     func start() {
         let tabBarController = UITabBarController()
-        var controllers: [UIViewController] = []
-
-        let locationController = createLocationController()
-        
-        controllers.append(locationController)
-        
-        tabBarController.viewControllers = controllers
-        
         tabBarController.customeColorsScheme()
         
+        createLocationController()
+        let saveController = createSaveController()
+        let naviController = createNaviController()
+        let toolsController = createToolsController()
+        let settingsController = createSettingsController()
+        
+        tabBarController.viewControllers = controllers
         
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }
+}
+
+
+
+//MARK: - Extension for AppCoordinator - Adding private methods, which created UIViewControllers as rootViewControllers for each of the TabBar Items.
+
+private extension AppCoordinator {
     
-    
-    
-    private func createLocationController() -> UIViewController {
+    //locationController
+    private func createLocationController() {
         locationsCoordinator = LocationsCoordinator()
         
-        guard let locationController = locationsCoordinator?.rootViewController else { return UIViewController()}
+        guard let locationController = locationsCoordinator?.start() else { return }
         locationController.tabBarItem = UITabBarItem(title: "Locations", image: UIImage(systemName: "location.fill.viewfinder"), tag: 0)
         
-        locationsCoordinator?.start()
-        return locationController
-    }
-    
-//    func showLocationViewController() {
-//        let locationsCoordinator = LocationsCoordinator(window: window, rootViewController: rootViewController)
-//        locationsCoordinator.start()
-//    }
-    
-    
-//    private func setupTabBar() {
-//        let tabBarController = UITabBarController()
-//        var controllers: [UIViewController] = []
-//        
-//        guard let locationsViewController = locationCoordinator?.rootViewController else { return }
-//        locationsViewController.tabBarItem = UITabBarItem(title: "Locations", image: UIImage(systemName: "location.fill.viewfinder"), tag: 0)
-//        controllers.append(locationsViewController)
-//        
-//        tabBarController.viewControllers = controllers
-//        
-//        tabBarController.customeColorsScheme()
-//        
-//        
-//    }
-    
-    
-    private func createMainLocationController() -> UIViewController {
-        let view = LocationsView()
-        let viewModel = LocationListViewModel()
-        view.viewModel = viewModel
-        
-        let clearNavigationController = UINavigationController(rootViewController: view)
-        return clearNavigationController
+        controllers.append(locationController)
     }
     
     
-    private func responceControllers() -> [UIViewController] {
+    //saveController
+    private func createSaveController() -> UIViewController {
+        saveCoordinator = SaveCoordinator()
         
-        var controllersArray: [UIViewController] = []
-        let mainLocationController = createMainLocationController()
-        controllersArray.append(mainLocationController)
+        guard let saveController = saveCoordinator?.rootViewController else { return UIViewController()}
+        saveController.tabBarItem = UITabBarItem(title: "Save", image: UIImage(systemName: "square.and.arrow.down"), tag: 1)
         
-        
-        let saveViewController = SaveView()
-        let naviViewController = NaviViewController()
-        let toolsViewController = ToolsViewController()
-        let settingsViewController = SettingsViewController()
-        
-        let saveNavigationController = UINavigationController(rootViewController: saveViewController)
-        let toolsNavigationController = UINavigationController(rootViewController: toolsViewController)
-        
-        controllersArray.append(saveNavigationController)
-        controllersArray.append(naviViewController)
-        controllersArray.append(toolsNavigationController)
-        controllersArray.append(settingsViewController)
+        controllers.append(saveController)
 
-        return controllersArray
+        saveCoordinator?.start()
+        return saveController
+    }
+    
+    
+    //naviController
+    private func createNaviController() -> UIViewController {
+        navigationCoordinator = NavigationCoordinator()
+        
+        guard let naviController = navigationCoordinator?.rootViewController else { return UIViewController()}
+        naviController.tabBarItem = UITabBarItem(title: "Navi", image: UIImage(systemName: "location.fill"), tag: 2)
+        
+        controllers.append(naviController)
+
+        navigationCoordinator?.start()
+        return naviController
+    }
+    
+    
+    //toolsController
+    private func createToolsController() -> UIViewController {
+        toolsCoordinator = ToolsCoordinator()
+        
+        guard let toolsController = toolsCoordinator?.rootViewController else { return UIViewController()}
+        toolsController.tabBarItem = UITabBarItem(title: "Tools", image: UIImage(systemName: "squareshape.split.2x2"), tag: 3)
+        
+        controllers.append(toolsController)
+
+        toolsCoordinator?.start()
+        return toolsController
+    }
+    
+    
+    //settingController
+    private func createSettingsController() -> UIViewController {
+        settingsCoordinator = SettingsCoordinator()
+        
+        guard let settingsController = settingsCoordinator?.rootViewController else { return UIViewController()}
+        settingsController.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "slider.horizontal.3"), tag: 4)
+        
+        controllers.append(settingsController)
+
+        settingsCoordinator?.start()
+        return settingsController
     }
 }

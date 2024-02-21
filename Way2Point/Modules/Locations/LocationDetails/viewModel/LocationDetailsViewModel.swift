@@ -1,8 +1,16 @@
-//
-//  LocationDetailsViewModel.swift
-//  Way2Point
-//
-//  Created by Maks on 20.02.24.
-//
+protocol LocationDetailsViewModelProtocol {
+    
+}
 
-import Foundation
+
+
+final class LocationDetailsViewModel {
+    
+}
+
+
+
+extension LocationDetailsViewModel: LocationDetailsViewModelProtocol {
+    
+    
+}

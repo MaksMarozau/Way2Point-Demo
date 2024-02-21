@@ -7,8 +7,19 @@ final class LocationsView: UIViewController {
     
 //MARK: - Properties of class
     
+    var viewModel: LocationListViewModelProtocol
+    
     private let tableView = UITableView()
 
+    
+    init(viewModel: LocationListViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     
 //MARK: - Lifecycles
@@ -85,7 +96,6 @@ extension LocationsView: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let controller = LocationDetailView()
-        navigationController?.pushViewController(controller, animated: true)
+        viewModel.showDetails()
     }
 }

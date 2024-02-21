@@ -1,4 +1,4 @@
-protocol LocationListViewModelProtocol {
+protocol LocationListViewModelProtocol: AnyObject {
     
     func showDetails()
 }

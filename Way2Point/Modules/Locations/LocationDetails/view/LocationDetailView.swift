@@ -1,19 +1,13 @@
 import UIKit
 
-//MARK: - Protocol for extention MainScreenView with
-
-protocol LocationDetailViewInputProtocol: AnyObject {
-    
-}
-
-
-
 //MARK: - Final class MainScreenView
 
-final class LocationDetailView: UIViewController {
+final class LocationDetailsView: UIViewController {
     
     
 //MARK: - Properties of class
+    
+    var viewModel: LocationDetailsViewModelProtocol!
     
     //the main struct views
     private let globalContainerView = UIView()

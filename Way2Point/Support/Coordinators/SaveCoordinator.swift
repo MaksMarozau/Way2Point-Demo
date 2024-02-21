@@ -1,8 +1,21 @@
-//
-//  SaveCoordinator.swift
-//  Way2Point
-//
-//  Created by Maks on 20.02.24.
-//
+import UIKit
 
-import Foundation
+final class SaveCoordinator {
+    
+    let rootViewController: SaveView
+    let navigationController: UINavigationController
+    
+    init() {
+        self.navigationController = UINavigationController()
+        rootViewController = SaveView()
+        
+        let viewModel = SaveViewModel()
+        let view = rootViewController
+        view.viewModel = viewModel
+    }
+    
+    
+    func start() {
+        navigationController.pushViewController(rootViewController, animated: true)
+    }
+}

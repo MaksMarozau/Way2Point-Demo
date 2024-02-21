@@ -7,6 +7,8 @@ final class SaveView: UIViewController {
     
 //MARK: - Properties of class
     
+    var viewModel: TitleSaveViewModelProtocol!
+    
     private let saveButton = UIButton()
     private let instructionLabel = UILabel()
     
