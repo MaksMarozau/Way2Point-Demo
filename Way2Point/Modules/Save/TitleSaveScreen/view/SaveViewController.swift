@@ -1,14 +1,29 @@
 import UIKit
 
-//MARK: - Final class SaveView
+//MARK: - Final class SaveTitleView
 
-final class SaveView: UIViewController {
+final class SaveTitleView: UIViewController {
     
     
 //MARK: - Properties of class
     
+    private let viewModel: SaveTitleViewModelProtocol
+    
     private let saveButton = UIButton()
     private let instructionLabel = UILabel()
+    
+    
+    
+//MARK: - Initializator
+    
+    init(viewModel: SaveTitleViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     
     
@@ -132,10 +147,8 @@ final class SaveView: UIViewController {
             sender.layer.shadowOffset = CGSize(width: 5, height: 5)
             sender.backgroundColor = .backgroundCell
         } completion: { _ in
-           
+            self.viewModel.saveCurrentLocation()
         }
-        let controller = AddImagesView()
-        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     

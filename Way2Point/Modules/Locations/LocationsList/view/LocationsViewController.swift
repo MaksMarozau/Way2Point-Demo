@@ -1,24 +1,39 @@
 import UIKit
 
-//MARK: - Final class LocationsView
+//MARK: - Final class LocationsListView
 
-final class LocationsView: UIViewController {
+final class LocationsListView: UIViewController {
     
     
 //MARK: - Properties of class
+    
+    private let viewModel: LocationListViewModelProtocol
     
     private let tableView = UITableView()
 
     
     
-//MARK: - Lifecycles
+//MARK: - Initializators
+    
+    init(viewModel: LocationListViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+//MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(LocationsTableViewCell.self, forCellReuseIdentifier: "LocationsTableViewCell")
+        tableView.register(LocationsListTableViewCell.self, forCellReuseIdentifier: "LocationsTableViewCell")
         
         view.addSubview(tableView)
 
@@ -60,9 +75,9 @@ final class LocationsView: UIViewController {
 
 
 
-//MARK: Extentions for class LocationsView [UITableViewDelegate, UITableViewDataSource]
+//MARK: Extentions for class LocationsListView [UITableViewDelegate, UITableViewDataSource]
 
-extension LocationsView: UITableViewDelegate, UITableViewDataSource {
+extension LocationsListView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 20
@@ -71,7 +86,7 @@ extension LocationsView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "LocationsTableViewCell", for: indexPath) as? LocationsTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "LocationsTableViewCell", for: indexPath) as? LocationsListTableViewCell else { return UITableViewCell() }
         
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
@@ -85,7 +100,6 @@ extension LocationsView: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let controller = LocationDetailView()
-        navigationController?.pushViewController(controller, animated: true)
+        viewModel.showDetails()
     }
 }

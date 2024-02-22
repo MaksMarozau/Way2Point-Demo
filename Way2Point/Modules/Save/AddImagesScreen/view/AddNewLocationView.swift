@@ -1,11 +1,13 @@
 import UIKit
 
-//MARK: - Final class SaveView
+//MARK: - Final class SaveTitleView
 
-final class AddImagesView: UIViewController {
+final class AddNewLocationView: UIViewController {
     
     
 //MARK: - Properties of class
+    
+    private let viewModel: AddNewLocationViewModelProtocol
     
     private let imageContainerView = UIView()
     private let titleImageView = UIImageView()
@@ -20,6 +22,19 @@ final class AddImagesView: UIViewController {
     
     
     
+//MARK: - Initializator
+    
+    init(viewModel: AddNewLocationViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
 //MARK: - Lifecycle of controller
     
     override func viewDidLoad() {
@@ -29,7 +44,6 @@ final class AddImagesView: UIViewController {
         setConstraintes()
         configureUI()
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -73,7 +87,6 @@ final class AddImagesView: UIViewController {
         collectionsBackgroundView.addSubviews(views: blurEffectView, imagesCollectionView)
         
         descriptionContainerView.addSubviews(views: nameOfLocationTextField, descriptionOfLocationTextView)
-        
     }
     
     
@@ -215,9 +228,9 @@ final class AddImagesView: UIViewController {
 
 
 
-//MARK: - Extension for class AddImagesView with UITextView's delegate protocol to put/put away a placeholder
+//MARK: - Extension for class AddNewLocationView with UITextView's delegate protocol to put/put away a placeholder
 
-extension AddImagesView: UITextViewDelegate {
+extension AddNewLocationView: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if descriptionOfLocationTextView.text == "Enter the description of location, please" {
@@ -225,8 +238,6 @@ extension AddImagesView: UITextViewDelegate {
             descriptionOfLocationTextView.textColor = .standartBlack
             descriptionOfLocationTextView.textAlignment = .left
         }
-        
-
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
