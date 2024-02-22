@@ -13,7 +13,8 @@ final class NavigationCoordinator {
     
     func start() -> UIViewController {
         
-        let view = NavigationView()
+        let viewModel = NavigationScreenViewModel()
+        let view = NavigationScreenView(viewModel: viewModel)
         
         navigationController.pushViewController(view, animated: true)
         

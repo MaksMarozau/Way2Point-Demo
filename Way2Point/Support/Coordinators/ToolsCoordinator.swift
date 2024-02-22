@@ -1,5 +1,7 @@
 import UIKit
 
+//MARK: - Final class ToolsCoordinator
+
 final class ToolsCoordinator {
     
     private let navigationController: UINavigationController
@@ -11,7 +13,8 @@ final class ToolsCoordinator {
     
     func start() -> UIViewController {
 
-        let view = ToolsView()
+        let viewModel = ToolsMainScreenViewModel()
+        let view = ToolsMainScreenView(viewModel: viewModel)
         
         navigationController.pushViewController(view, animated: true)
         

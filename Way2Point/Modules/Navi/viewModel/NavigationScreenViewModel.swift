@@ -1,8 +1,23 @@
-//
-//  NavigationScreenViewModel.swift
-//  Way2Point
-//
-//  Created by Maks on 22.02.24.
-//
+//MARK: - Protocol for expansion NavigationScreenViewModel class with mrthods , wich useing for implemendation logic of the view.
 
-import Foundation
+protocol NavigationScreenViewModelProtocol {
+    
+}
+
+
+
+//MARK: - Final class NavigationScreenViewModel
+
+final class NavigationScreenViewModel {
+    
+    
+    
+}
+
+
+
+//MARK: - Impemendation of the NavigationScreenViewModelProtocol
+
+extension NavigationScreenViewModel: NavigationScreenViewModelProtocol {
+    
+}

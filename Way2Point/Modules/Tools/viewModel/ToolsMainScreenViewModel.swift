@@ -1,8 +1,23 @@
-//
-//  ToolsMainScreenViewModel.swift
-//  Way2Point
-//
-//  Created by Maks on 22.02.24.
-//
+//MARK: - Protocol for expansion ToolsMainScreenViewModel class with mrthods , wich useing for implemendation logic of the view.
 
-import Foundation
+protocol ToolsMainScreenViewModelProtocol {
+    
+}
+
+
+
+//MARK: - Final class ToolsMainScreenViewModel
+
+final class ToolsMainScreenViewModel {
+    
+    
+    
+}
+
+
+
+//MARK: - Impemendation of the ToolsMainScreenViewModelProtocol
+
+extension ToolsMainScreenViewModel: ToolsMainScreenViewModelProtocol {
+    
+}

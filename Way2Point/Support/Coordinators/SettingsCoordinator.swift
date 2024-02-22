@@ -1,5 +1,7 @@
 import UIKit
 
+//MARK: - Final class SettingsCoordinator
+
 final class SettingsCoordinator {
     
     private let navigationController: UINavigationController
@@ -11,7 +13,8 @@ final class SettingsCoordinator {
     
     func start() -> UIViewController {
         
-        let view = SettingsView()
+        let viewModel = SettingsScreenViewModel()
+        let view = SettingsScreenView(viewModel: viewModel)
         
         navigationController.pushViewController(view, animated: true)
         
