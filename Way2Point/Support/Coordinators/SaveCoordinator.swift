@@ -5,9 +5,11 @@ import UIKit
 final class SaveCoordinator {
     
     private let navigationController: UINavigationController
+    private let appCoordinator: AppCoordinator
     
     
-    init() {
+    init(appCoordinator: AppCoordinator) {
+        self.appCoordinator = appCoordinator
         self.navigationController = UINavigationController()
     }
     
@@ -29,9 +31,15 @@ final class SaveCoordinator {
     
     private func showAddLocationScreen(_ parent: UIViewController) {
         
-        let viewModel = AddNewLocationViewModel()
+        let imagePicker = ImagePickerView()
+        let viewModel = AddNewLocationViewModel(imagePicker: imagePicker)
         let view = AddNewLocationView(viewModel: viewModel)
         
         parent.navigationController?.pushViewController(view, animated: true)
+        
+        viewModel.movieToStartAppScreen = { [weak self] in
+            parent.navigationController?.popToRootViewController(animated: false)
+            self?.appCoordinator.tabBarController.selectedIndex = 0
+        }
     }
 }

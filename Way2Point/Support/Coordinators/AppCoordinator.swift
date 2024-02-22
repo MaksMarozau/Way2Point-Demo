@@ -8,6 +8,7 @@ final class AppCoordinator {
 //MARK: - Properties of class
     
     let window: UIWindow
+    let tabBarController = UITabBarController()
     
     private var locationsCoordinator: LocationsCoordinator?
     private var saveCoordinator: SaveCoordinator?
@@ -28,7 +29,6 @@ final class AppCoordinator {
 //MARK: - Start of coordinator
     
     func start() {
-        let tabBarController = UITabBarController()
         tabBarController.customeColorsScheme()
         
         createLocationController()
@@ -63,7 +63,7 @@ private extension AppCoordinator {
     
     //saveController
     private func createSaveController() {
-        saveCoordinator = SaveCoordinator()
+        saveCoordinator = SaveCoordinator(appCoordinator: self)
         
         guard let saveController = saveCoordinator?.start() else { return }
         saveController.tabBarItem = UITabBarItem(title: "Save", image: UIImage(systemName: "square.and.arrow.down"), tag: 1)

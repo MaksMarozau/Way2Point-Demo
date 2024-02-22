@@ -7,19 +7,20 @@ final class AddNewLocationView: UIViewController {
     
 //MARK: - Properties of class
     
-    private let viewModel: AddNewLocationViewModelProtocol
+    private var viewModel: AddNewLocationViewModelProtocol
     
     private let imageContainerView = UIView()
     private let titleImageView = UIImageView()
     private let addImageButton = UIButton()
     private let collectionsBackgroundView = UIView()
     private let imagesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-    private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+    private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     
     private let descriptionContainerView = UIView()
     private let nameOfLocationTextField = UITextField()
     private let descriptionOfLocationTextView = UITextView()
     
+    private var imagesArray: [UIImage] = []
     
     
 //MARK: - Initializator
@@ -51,6 +52,12 @@ final class AddNewLocationView: UIViewController {
         configureNavigationBar()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        addImage()
+    }
+    
     
     
 //MARK: - Configurations of Navigation bar
@@ -61,17 +68,25 @@ final class AddNewLocationView: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Add new"
         
+        
         let saveButton = UIBarButtonItem(systemItem: .save, primaryAction: UIAction(handler: { _ in
             
         }))
-        
         saveButton.tintColor = UIColor.violetRose
         saveButton.style = .done
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = saveButton
         
-        navigationController?.topViewController?.navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .close, primaryAction: UIAction(handler: { _ in
-            
+        
+        let closeButton = UIBarButtonItem(systemItem: .close, primaryAction: UIAction(handler: { _ in
+            UIView.animate(withDuration: 0.7) {
+                self.view.alpha = 0
+            } completion: { _ in
+                self.viewModel.closePage()
+            }
         }))
+        closeButton.tintColor = UIColor.violetRose
+        closeButton.style = .done
+        navigationController?.topViewController?.navigationItem.leftBarButtonItem = closeButton
     }
     
     
@@ -162,29 +177,32 @@ final class AddNewLocationView: UIViewController {
         imageContainerView.layer.borderWidth = 3
         imageContainerView.layer.borderColor = UIColor.violetFlower.cgColor
         imageContainerView.layer.shadowColor = UIColor.violetRose.cgColor
-        imageContainerView.layer.shadowOffset = CGSize(width: 3, height: 3)
-        imageContainerView.layer.shadowOpacity = 0.5
-        imageContainerView.layer.shadowRadius = 8
+        imageContainerView.layer.shadowOffset = CGSize(width: 5, height: 5)
+        imageContainerView.layer.shadowOpacity = 0.6
+        imageContainerView.layer.shadowRadius = 10
         
         descriptionContainerView.backgroundColor = .backgroundCell
         descriptionContainerView.layer.cornerRadius = 10
         descriptionContainerView.layer.borderWidth = 3
         descriptionContainerView.layer.borderColor = UIColor.violetFlower.cgColor
         descriptionContainerView.layer.shadowColor = UIColor.violetRose.cgColor
-        descriptionContainerView.layer.shadowOffset = CGSize(width: 3, height: 3)
-        descriptionContainerView.layer.shadowOpacity = 0.5
-        descriptionContainerView.layer.shadowRadius = 8
+        descriptionContainerView.layer.shadowOffset = CGSize(width: 5, height: 5)
+        descriptionContainerView.layer.shadowOpacity = 0.6
+        descriptionContainerView.layer.shadowRadius = 10
         
         
         //imageContainerView's subviews
         titleImageView.backgroundColor = .backgroundBar
+        titleImageView.contentMode = .scaleAspectFill
         titleImageView.layer.cornerRadius = 10
+        titleImageView.clipsToBounds = true
         
         addImageButton.backgroundColor = .clear
         addImageButton.setBackgroundImage(UIImage(systemName: "plus"), for: .normal)
         addImageButton.tintColor = .itemUnselected
         addImageButton.addTarget(self, action: #selector(addImageTapped), for: .touchUpInside)
         
+        collectionsBackgroundView.backgroundColor = .clear
         collectionsBackgroundView.layer.cornerRadius = 10
         collectionsBackgroundView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         collectionsBackgroundView.clipsToBounds = true
@@ -223,12 +241,24 @@ final class AddNewLocationView: UIViewController {
     @objc private func addImageTapped() {
         
         print("AddImageTapp!")
+        viewModel.addNewImage(to: self)
+    }
+    
+    
+    
+//MARK: - Implementation of viewModel bindings
+    
+    private func addImage() {
+        viewModel.addImage = { [weak self] image in
+            self?.imagesArray.append(image)
+            self?.titleImageView.image = self?.imagesArray.last
+        }
     }
 }
 
 
 
-//MARK: - Extension for class AddNewLocationView with UITextView's delegate protocol to put/put away a placeholder
+//MARK: - Extension for class AddNewLocationView with UITextView's delegate protocol to put / put away a placeholder
 
 extension AddNewLocationView: UITextViewDelegate {
     
