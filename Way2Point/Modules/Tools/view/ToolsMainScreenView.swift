@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ToolsView: UIViewController {
+class ToolsMainScreenView: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
