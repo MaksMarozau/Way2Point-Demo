@@ -1,8 +1,11 @@
 import UIKit
 
+//MARK: - Final class LocationsCoordinator
+
 final class LocationsCoordinator {
     
-    let navigationController: UINavigationController
+    private let navigationController: UINavigationController
+    
     
     init() {
         self.navigationController = UINavigationController()
@@ -10,8 +13,9 @@ final class LocationsCoordinator {
     
     
     func start() -> UIViewController {
-        let viewModel = LocationsViewModel()
-        let view = LocationsView(viewModel: viewModel)
+        let viewModel = LocationsListViewModel()
+        let view = LocationsListView(viewModel: viewModel)
+        
         navigationController.setViewControllers([view], animated: false)
         
         viewModel.showLocationDetails = { [weak self] in
@@ -21,11 +25,10 @@ final class LocationsCoordinator {
     }
     
     
-    func showLocationDetailsScreen(_ parent: UIViewController) {
+    private func showLocationDetailsScreen(_ parent: UIViewController) {
         
-        let view = LocationDetailsView()
         let viewModel = LocationDetailsViewModel()
-        view.viewModel = viewModel
+        let view = LocationDetailsView(viewModel: viewModel)
         
         parent.navigationController?.pushViewController(view, animated: true)
     }

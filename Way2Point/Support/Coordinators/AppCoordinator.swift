@@ -32,10 +32,10 @@ final class AppCoordinator {
         tabBarController.customeColorsScheme()
         
         createLocationController()
-        let saveController = createSaveController()
-        let naviController = createNaviController()
-        let toolsController = createToolsController()
-        let settingsController = createSettingsController()
+        createSaveController()
+        createNaviController()
+        createToolsController()
+        createSettingsController()
         
         tabBarController.viewControllers = controllers
         
@@ -62,57 +62,45 @@ private extension AppCoordinator {
     
     
     //saveController
-    private func createSaveController() -> UIViewController {
+    private func createSaveController() {
         saveCoordinator = SaveCoordinator()
         
-        guard let saveController = saveCoordinator?.rootViewController else { return UIViewController()}
+        guard let saveController = saveCoordinator?.start() else { return }
         saveController.tabBarItem = UITabBarItem(title: "Save", image: UIImage(systemName: "square.and.arrow.down"), tag: 1)
         
         controllers.append(saveController)
-
-        saveCoordinator?.start()
-        return saveController
     }
     
     
     //naviController
-    private func createNaviController() -> UIViewController {
+    private func createNaviController() {
         navigationCoordinator = NavigationCoordinator()
         
-        guard let naviController = navigationCoordinator?.rootViewController else { return UIViewController()}
+        guard let naviController = navigationCoordinator?.start() else { return }
         naviController.tabBarItem = UITabBarItem(title: "Navi", image: UIImage(systemName: "location.fill"), tag: 2)
         
         controllers.append(naviController)
-
-        navigationCoordinator?.start()
-        return naviController
     }
     
     
     //toolsController
-    private func createToolsController() -> UIViewController {
+    private func createToolsController() {
         toolsCoordinator = ToolsCoordinator()
         
-        guard let toolsController = toolsCoordinator?.rootViewController else { return UIViewController()}
+        guard let toolsController = toolsCoordinator?.start() else { return }
         toolsController.tabBarItem = UITabBarItem(title: "Tools", image: UIImage(systemName: "squareshape.split.2x2"), tag: 3)
         
         controllers.append(toolsController)
-
-        toolsCoordinator?.start()
-        return toolsController
     }
     
     
     //settingController
-    private func createSettingsController() -> UIViewController {
+    private func createSettingsController() {
         settingsCoordinator = SettingsCoordinator()
         
-        guard let settingsController = settingsCoordinator?.rootViewController else { return UIViewController()}
+        guard let settingsController = settingsCoordinator?.start() else { return }
         settingsController.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "slider.horizontal.3"), tag: 4)
         
         controllers.append(settingsController)
-
-        settingsCoordinator?.start()
-        return settingsController
     }
 }

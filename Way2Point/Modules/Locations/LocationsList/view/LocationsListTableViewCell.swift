@@ -1,8 +1,8 @@
 import UIKit
 
-//MARK: - Final class LocationsTableViewCell
+//MARK: - Final class LocationsListTableViewCell
 
-class LocationsTableViewCell: UITableViewCell {
+class LocationsListTableViewCell: UITableViewCell {
     
     
 //MARK: - Properties of class

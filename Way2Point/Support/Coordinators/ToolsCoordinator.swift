@@ -2,20 +2,19 @@ import UIKit
 
 final class ToolsCoordinator {
     
-    let rootViewController: ToolsView
-    let navigationController: UINavigationController
+    private let navigationController: UINavigationController
     
     init() {
         self.navigationController = UINavigationController()
-        self.rootViewController = ToolsView()
-        
-//        let viewModel = SaveViewModel()
-        let view = rootViewController
-//        view.viewModel = viewModel
     }
     
     
-    func start() {
-        navigationController.pushViewController(rootViewController, animated: true)
+    func start() -> UIViewController {
+
+        let view = ToolsView()
+        
+        navigationController.pushViewController(view, animated: true)
+        
+        return navigationController
     }
 }

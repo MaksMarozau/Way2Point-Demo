@@ -1,21 +1,37 @@
 import UIKit
 
+//MARK: - Final class SaveCoordinator
+
 final class SaveCoordinator {
     
-    let rootViewController: SaveView
-    let navigationController: UINavigationController
+    private let navigationController: UINavigationController
+    
     
     init() {
         self.navigationController = UINavigationController()
-        rootViewController = SaveView()
-        
-        let viewModel = SaveViewModel()
-        let view = rootViewController
-        view.viewModel = viewModel
     }
     
     
-    func start() {
-        navigationController.pushViewController(rootViewController, animated: true)
+    func start() -> UIViewController {
+        
+        let viewModel = SaveTitleViewModel()
+        let view = SaveTitleView(viewModel: viewModel)
+        
+        navigationController.setViewControllers([view], animated: false)
+        
+        viewModel.showAddLocationScreen = { [weak self] in
+            self?.showAddLocationScreen(view)
+        }
+        
+        return navigationController
+    }
+    
+    
+    private func showAddLocationScreen(_ parent: UIViewController) {
+        
+        let viewModel = AddNewLocationViewModel()
+        let view = AddNewLocationView(viewModel: viewModel)
+        
+        parent.navigationController?.pushViewController(view, animated: true)
     }
 }

@@ -7,7 +7,7 @@ final class LocationDetailsView: UIViewController {
     
 //MARK: - Properties of class
     
-    var viewModel: LocationDetailsViewModelProtocol!
+    private let viewModel: LocationDetailsViewModelProtocol
     
     //the main struct views
     private let globalContainerView = UIView()
@@ -55,7 +55,21 @@ final class LocationDetailsView: UIViewController {
         //buttonsView's subviews
         private let moveButton = UIButton()
         private let deleteButton = UIButton()
-        
+    
+    
+    
+//MARK: - Initializator
+    
+    init(viewModel: LocationDetailsViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
   
     
 //MARK: - Lifecycle of controller

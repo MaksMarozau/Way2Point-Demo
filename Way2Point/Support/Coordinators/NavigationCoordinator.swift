@@ -1,21 +1,22 @@
 import UIKit
 
+//MARK: - Final class NavigationCoordinator
+
 final class NavigationCoordinator {
     
-    let rootViewController: NavigationView
-    let navigationController: UINavigationController
+    private let navigationController: UINavigationController
     
     init() {
         self.navigationController = UINavigationController()
-        self.rootViewController = NavigationView()
-        
-//        let viewModel = SaveViewModel()
-        let view = rootViewController
-//        view.viewModel = viewModel
     }
     
     
-    func start() {
-        navigationController.pushViewController(rootViewController, animated: true)
+    func start() -> UIViewController {
+        
+        let view = NavigationView()
+        
+        navigationController.pushViewController(view, animated: true)
+        
+        return navigationController
     }
 }
