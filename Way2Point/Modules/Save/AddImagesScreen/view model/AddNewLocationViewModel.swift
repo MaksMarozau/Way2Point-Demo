@@ -94,7 +94,15 @@ final class AddNewLocationViewModel {
     
     private func saveData(name: String, description: String, latitude: Double, longitude: Double, imagesArray: [UIImage]) {
         
+        print(imagesArray.count)
+        
         let result = CoreDataManager.instance.saveLocation(name: name, description: description, latitude: latitude, longitude: longitude, imagesArray: imagesArray)
+        switch result {
+        case .success(let success):
+            print("Saved")
+        case .failure(let failure):
+            print(failure)
+        }
     }
 }
 
