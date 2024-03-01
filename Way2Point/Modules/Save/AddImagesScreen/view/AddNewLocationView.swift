@@ -9,18 +9,26 @@ final class AddNewLocationView: UIViewController {
     
     private var viewModel: AddNewLocationViewModelProtocol
     
+    private let contentScrollView = UIScrollView()
+    
     private let imageContainerView = UIView()
     private let titleImageView = UIImageView()
     private let addImageButton = UIButton()
     private let collectionsBackgroundView = UIView()
-    private let imagesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    private let imagesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     
     private let descriptionContainerView = UIView()
     private let nameOfLocationTextField = UITextField()
     private let descriptionOfLocationTextView = UITextView()
     
-    private var imagesArray: [UIImage] = []
+    private let collectionViewLayout = UICollectionViewFlowLayout()
+    
+    private var imagesArray: [UIImage] = [] {
+        didSet {
+            self.imagesCollectionView.reloadData()
+        }
+    }
     
     
 //MARK: - Initializator
@@ -44,18 +52,22 @@ final class AddNewLocationView: UIViewController {
         addSubviews()
         setConstraintes()
         configureUI()
+        appointmentExecutors()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         configureNavigationBar()
+        addNotificationCenterObservers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        setupFlowLoyaut()
         addImage()
+        setHardLayer()
     }
     
     
@@ -70,7 +82,9 @@ final class AddNewLocationView: UIViewController {
         
         
         let saveButton = UIBarButtonItem(systemItem: .save, primaryAction: UIAction(handler: { _ in
-            
+            let name = self.nameOfLocationTextField.text
+            let description = self.descriptionOfLocationTextView.text
+            self.viewModel.saveCurrentLocation(with: name, description: description)
         }))
         saveButton.tintColor = UIColor.violetRose
         saveButton.style = .done
@@ -109,7 +123,7 @@ final class AddNewLocationView: UIViewController {
 //MARK: - Setting of constraintes
     
     private func setConstraintes() {
-        
+          
         imageContainerView.translatesAutoresizingMaskIntoConstraints = false
         imageContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 33).isActive = true
         imageContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -176,19 +190,11 @@ final class AddNewLocationView: UIViewController {
         imageContainerView.layer.cornerRadius = 10
         imageContainerView.layer.borderWidth = 3
         imageContainerView.layer.borderColor = UIColor.violetFlower.cgColor
-        imageContainerView.layer.shadowColor = UIColor.violetRose.cgColor
-        imageContainerView.layer.shadowOffset = CGSize(width: 5, height: 5)
-        imageContainerView.layer.shadowOpacity = 0.6
-        imageContainerView.layer.shadowRadius = 10
         
         descriptionContainerView.backgroundColor = .backgroundCell
         descriptionContainerView.layer.cornerRadius = 10
         descriptionContainerView.layer.borderWidth = 3
         descriptionContainerView.layer.borderColor = UIColor.violetFlower.cgColor
-        descriptionContainerView.layer.shadowColor = UIColor.violetRose.cgColor
-        descriptionContainerView.layer.shadowOffset = CGSize(width: 5, height: 5)
-        descriptionContainerView.layer.shadowOpacity = 0.6
-        descriptionContainerView.layer.shadowRadius = 10
         
         
         //imageContainerView's subviews
@@ -209,10 +215,8 @@ final class AddNewLocationView: UIViewController {
         
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        imagesCollectionView.backgroundColor = .backgroundCell
-        imagesCollectionView.layer.borderWidth = 1
-        imagesCollectionView.layer.borderColor = UIColor.violetFlower.cgColor
-        
+        imagesCollectionView.backgroundColor = .clear
+       
         
         //descriptionContainerView's subviews
         nameOfLocationTextField.backgroundColor = .backgroundCellSupport
@@ -223,15 +227,70 @@ final class AddNewLocationView: UIViewController {
         nameOfLocationTextField.textColor = .standartBlack
         nameOfLocationTextField.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         nameOfLocationTextField.placeholder = "Enter the name of location, please"
+        nameOfLocationTextField.isUserInteractionEnabled = true
         
         descriptionOfLocationTextView.backgroundColor = .backgroundCellSupport
         descriptionOfLocationTextView.layer.borderWidth = 1
         descriptionOfLocationTextView.layer.borderColor = UIColor.violetFlower.cgColor
-        descriptionOfLocationTextView.delegate = self
         descriptionOfLocationTextView.text = "Enter the description of location, please"
         descriptionOfLocationTextView.textColor = .placeholderText
         descriptionOfLocationTextView.font = UIFont.systemFont(ofSize: 17)
         descriptionOfLocationTextView.textAlignment = .center
+        descriptionOfLocationTextView.isUserInteractionEnabled = true
+    }
+    
+    
+    
+//MARK: - Setting of hard shadows and animations
+    
+    private func setHardLayer() {
+        
+        imageContainerView.layer.shadowColor = UIColor.violetRose.cgColor
+        imageContainerView.layer.shadowOffset = CGSize(width: 5, height: 5)
+        imageContainerView.layer.shadowOpacity = 0.6
+        imageContainerView.layer.shadowRadius = 10
+        
+        descriptionContainerView.layer.shadowColor = UIColor.violetRose.cgColor
+        descriptionContainerView.layer.shadowOffset = CGSize(width: 5, height: 5)
+        descriptionContainerView.layer.shadowOpacity = 0.6
+        descriptionContainerView.layer.shadowRadius = 10
+    }
+    
+    
+    
+//MARK: - Appointment of delegates and data sources
+    
+    private func appointmentExecutors() {
+        
+        imagesCollectionView.register(AddNewLocationCollectionViewCell.self, forCellWithReuseIdentifier: "AddNewLocationCollectionViewCell")
+        imagesCollectionView.dataSource = self
+        imagesCollectionView.delegate = self
+        
+        nameOfLocationTextField.delegate = self
+        descriptionOfLocationTextView.delegate = self
+    }
+    
+    
+    
+//MARK: - Setup flow layouts fot collection view
+    
+    private func setupFlowLoyaut() {
+        let width = imagesCollectionView.frame.width * 0.35
+        let height = imagesCollectionView.frame.height
+        collectionViewLayout.itemSize = CGSize(width: width, height: height)
+        collectionViewLayout.scrollDirection = .horizontal
+        collectionViewLayout.minimumLineSpacing = 7
+        imagesCollectionView.collectionViewLayout = collectionViewLayout
+    }
+    
+    
+    
+//MARK: - Adding of observers from the Notification center
+    
+    private func addNotificationCenterObservers() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     
@@ -240,8 +299,33 @@ final class AddNewLocationView: UIViewController {
     
     @objc private func addImageTapped() {
         
-        print("AddImageTapp!")
         viewModel.addNewImage(to: self)
+    }
+    
+    @objc private func keyboardShow(_ sender: Notification) {
+        print("Show")
+        if let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHight = keyboardRectangle.height
+            if view.frame.origin.y == 0 {
+                view.frame.origin.y -= (keyboardHight + 12)
+                
+                UIView.animate(withDuration: 0.3) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        }
+    }
+    
+    @objc private func keyboardHide() {
+        print("Hide")
+        if view.frame.origin.y != 0 {
+            view.frame.origin.y = 0
+            
+            UIView.animate(withDuration: 0.3) {
+                self.view.layoutIfNeeded()
+            }
+        }
     }
     
     
@@ -253,6 +337,18 @@ final class AddNewLocationView: UIViewController {
             self?.imagesArray.append(image)
             self?.titleImageView.image = self?.imagesArray.last
         }
+    }
+}
+
+
+
+//MARK: - Extension for class AddNewLocationView with UITextField's delegate protocol
+
+extension AddNewLocationView: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        nameOfLocationTextField.resignFirstResponder()
+        return true
     }
 }
 
@@ -276,5 +372,38 @@ extension AddNewLocationView: UITextViewDelegate {
             descriptionOfLocationTextView.textColor = .lightGray
             descriptionOfLocationTextView.textAlignment = .center
         }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if (text == "\n") {
+            descriptionOfLocationTextView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+}
+
+
+
+//MARK: - Extension for AddNewLocationView to expand with UICollectionView's protocols
+
+extension AddNewLocationView: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return imagesArray.count
+    }
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let image = imagesArray[indexPath.item]
+        
+        guard let cell = imagesCollectionView.dequeueReusableCell(withReuseIdentifier: "AddNewLocationCollectionViewCell", for: indexPath) as? AddNewLocationCollectionViewCell else { return UICollectionViewCell() }
+        
+        cell.backgroundColor = .clear
+        cell.addImage(image)
+        
+        return cell
     }
 }
