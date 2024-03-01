@@ -32,7 +32,8 @@ final class SaveCoordinator {
     private func showAddLocationScreen(_ parent: UIViewController) {
         
         let imagePicker = ImagePickerView()
-        let viewModel = AddNewLocationViewModel(imagePicker: imagePicker)
+        let locationManager = LocationManager()
+        let viewModel = AddNewLocationViewModel(imagePicker: imagePicker, locationManager: locationManager)
         let view = AddNewLocationView(viewModel: viewModel)
         
         parent.navigationController?.pushViewController(view, animated: true)
