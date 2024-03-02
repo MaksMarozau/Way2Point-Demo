@@ -21,7 +21,7 @@ final class AddNewLocationViewModel {
 //MARK: - Properties of class
     
     private let imagePicker: ImagePickerView
-    private let locationManager: LocationManager
+    private let locationManager: LocationManagerProtocol
     
     var movieToStartAppScreen: (() -> Void)?
     var addImage: ((UIImage) -> Void)?
@@ -34,7 +34,7 @@ final class AddNewLocationViewModel {
     
 //MARK: - Initializator
     
-    init(imagePicker: ImagePickerView, locationManager: LocationManager) {
+    init(imagePicker: ImagePickerView, locationManager: LocationManagerProtocol) {
         self.imagePicker = imagePicker
         self.locationManager = locationManager
     }
@@ -100,6 +100,7 @@ final class AddNewLocationViewModel {
         switch result {
         case .success(let success):
             print("Saved")
+            movieToStartAppScreen?()
         case .failure(let failure):
             print(failure)
         }
@@ -121,6 +122,7 @@ extension AddNewLocationViewModel: AddNewLocationViewModelProtocol {
         guard !imagesArray.isEmpty else { return }
         
         saveData(name: name, description: description, latitude: latitude, longitude: longitude, imagesArray: imagesArray)
+       
     }
     
     func addNewImage(to viewController: UIViewController) {

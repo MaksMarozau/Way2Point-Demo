@@ -80,4 +80,32 @@ final class CoreDataManager: NSCopying {
         
         return .success(locations)
     }
+    
+    
+    
+//MARK: - Delete data method
+        
+    func deleteData(of object: TheLocation) -> Result<Void, CoreDataError> {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return .failure(.appDelegateError) }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        if let images = object.imagesRelationship as? Set<TheImages> {
+            for image in images {
+                managedContext.delete(image)
+            }
+        }
+        
+        managedContext.delete(object)
+        
+        do {
+            try managedContext.save()
+        } catch {
+            return .failure(.saveError)
+        }
+        return .success(())
+    }
 }
+
+

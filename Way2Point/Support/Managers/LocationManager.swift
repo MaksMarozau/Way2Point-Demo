@@ -1,5 +1,13 @@
 import MapKit
 
+protocol LocationManagerProtocol {
+    
+    func getLocationsLatitude() -> Double
+    func getLocationsLongitude() -> Double
+}
+
+
+
 final class LocationManager: NSObject, CLLocationManagerDelegate {
         
     private let locationManager = CLLocationManager()
@@ -21,8 +29,20 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
             }
         }
     }
-        
-        
+    
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last?.coordinate {
+            self.latitude = location.latitude
+            self.longitude = location.longitude
+        }
+    }
+}
+
+
+
+extension LocationManager : LocationManagerProtocol {
+    
     func getLocationsLatitude() -> Double {
         return latitude
     }
@@ -30,13 +50,5 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         
     func getLocationsLongitude() -> Double {
         return longitude
-    }
-
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.last?.coordinate {
-            self.latitude = location.latitude
-            self.longitude = location.longitude
-        }
     }
 }
