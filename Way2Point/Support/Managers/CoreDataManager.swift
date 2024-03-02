@@ -1,6 +1,9 @@
 import CoreData
 import UIKit
 
+
+//MARK: - Final class CoreDataManager
+
 final class CoreDataManager: NSCopying {
 
     static let instance = CoreDataManager()
@@ -11,6 +14,9 @@ final class CoreDataManager: NSCopying {
         self
     }
     
+   
+    
+//MARK: - Saving of current location
     
     func saveLocation(name: String, description: String, latitude: Double, longitude: Double, imagesArray: [UIImage]) -> Result<Void, CoreDataError> {
         
@@ -47,5 +53,31 @@ final class CoreDataManager: NSCopying {
         }
         
         return .success(())
+    }
+    
+    
+  
+//MARK: - Loading of locations array
+    
+    func loadLocations() -> Result<[TheLocation], CoreDataError> {
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return .failure(.appDelegateError) }
+        
+        let managedContext  = appDelegate.persistentContainer.viewContext
+        
+        let feetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TheLocation")
+        feetchRequest.relationshipKeyPathsForPrefetching = ["imagesRelationship"]
+        
+        var locations = [TheLocation]()
+        
+        do {
+            let feetchedObject = try managedContext.fetch(feetchRequest)
+            guard let feetchedLocations = feetchedObject as? [TheLocation] else { return .failure(.castError) }
+            locations = feetchedLocations
+        } catch {
+            return .failure(.loadError)
+        }
+        
+        return .success(locations)
     }
 }
