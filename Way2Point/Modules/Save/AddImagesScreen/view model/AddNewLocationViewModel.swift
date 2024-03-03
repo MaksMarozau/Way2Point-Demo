@@ -6,9 +6,10 @@ protocol AddNewLocationViewModelProtocol {
     
     func closePage()
     func addNewImage(to viewController: UIViewController)
-    func saveCurrentLocation(with name: String?, description: String?)
+    func saveCurrentLocation(with name: String, _ description: String)
 
     var addImage: ((UIImage) -> Void)? { get set }
+    var showNotificationsAlert: ((UIAlertController) -> Void)? { get set }
 }
 
 
@@ -25,6 +26,7 @@ final class AddNewLocationViewModel {
     
     var movieToStartAppScreen: (() -> Void)?
     var addImage: ((UIImage) -> Void)?
+    var showNotificationsAlert: ((UIAlertController) -> Void)?
     
     private var imagesArray: [UIImage] = []
     private var latitude: Double = 0
@@ -98,11 +100,27 @@ final class AddNewLocationViewModel {
         
         let result = CoreDataManager.instance.saveLocation(name: name, description: description, latitude: latitude, longitude: longitude, imagesArray: imagesArray)
         switch result {
-        case .success(let success):
+        case .success(_):
             print("Saved")
             movieToStartAppScreen?()
         case .failure(let failure):
             print(failure)
+            showUserNotification(notificationType: .error, errorDescription: failure.description())
+        }
+    }
+    
+    
+    
+//MARK: - Show notification on the screen
+    
+    private func showUserNotification(notificationType type : UserNotificationsManager.NotificationType, errorDescription error: String?) {
+        
+        switch type {
+        case .error:
+            let alert = UserNotificationsManager.instance.showAlertWithError(wiht: error ?? "")
+        default:
+            let alert = UserNotificationsManager.instance.showAlert(by: type)
+            showNotificationsAlert?(alert)
         }
     }
 }
@@ -113,22 +131,40 @@ final class AddNewLocationViewModel {
 
 extension AddNewLocationViewModel: AddNewLocationViewModelProtocol {
     
-    func saveCurrentLocation(with name: String?, description: String?) {
+    
+//MARK: - Save the current location
+    
+    func saveCurrentLocation(with name: String, _ description: String) {
         
         getGPS()
         
-        guard let name, let description else { return }
-        guard longitude != 0.0 && latitude != 0.0 else { return }
-        guard !imagesArray.isEmpty else { return }
+        guard name != "" && description != "Enter the description of location, please" && description !=  "" else {
+            showUserNotification(notificationType: .empetyTextField, errorDescription: nil)
+            return
+        }
+        guard longitude != 0.0 && latitude != 0.0 else {
+            showUserNotification(notificationType: .gpsNotAvailable, errorDescription: nil)
+            return
+        }
+        guard !imagesArray.isEmpty else {
+            showUserNotification(notificationType: .noImage, errorDescription: nil)
+            return
+        }
         
         saveData(name: name, description: description, latitude: latitude, longitude: longitude, imagesArray: imagesArray)
-       
     }
+    
+    
+    
+//MARK: - Adding of new image to view
     
     func addNewImage(to viewController: UIViewController) {
         showActionSheet(on: viewController)
     }
     
+    
+    
+//MARK: - Close current page(module) method
     
     func closePage() {
         movieToStartAppScreen?()

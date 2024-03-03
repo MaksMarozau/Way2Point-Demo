@@ -67,7 +67,8 @@ final class AddNewLocationView: UIViewController {
         
         setupFlowLoyaut()
         addImage()
-        setHardLayer()
+        showNotificationsAlert()
+        setHardLayers()
     }
     
     
@@ -82,9 +83,9 @@ final class AddNewLocationView: UIViewController {
         
         
         let saveButton = UIBarButtonItem(systemItem: .save, primaryAction: UIAction(handler: { _ in
-            let name = self.nameOfLocationTextField.text
-            let description = self.descriptionOfLocationTextView.text
-            self.viewModel.saveCurrentLocation(with: name, description: description)
+            let name = self.nameOfLocationTextField.text ?? ""
+            let description = self.descriptionOfLocationTextView.text ?? ""
+            self.viewModel.saveCurrentLocation(with: name, description)
         }))
         saveButton.tintColor = UIColor.violetRose
         saveButton.style = .done
@@ -243,7 +244,7 @@ final class AddNewLocationView: UIViewController {
     
 //MARK: - Setting of hard shadows and animations
     
-    private func setHardLayer() {
+    private func setHardLayers() {
         
         imageContainerView.layer.shadowColor = UIColor.violetRose.cgColor
         imageContainerView.layer.shadowOffset = CGSize(width: 5, height: 5)
@@ -336,6 +337,14 @@ final class AddNewLocationView: UIViewController {
         viewModel.addImage = { [weak self] image in
             self?.imagesArray.append(image)
             self?.titleImageView.image = self?.imagesArray.last
+        }
+    }
+    
+    
+    private func showNotificationsAlert() {
+        
+        viewModel.showNotificationsAlert = { [weak self] alert in
+            self?.present(alert, animated: true)
         }
     }
 }
