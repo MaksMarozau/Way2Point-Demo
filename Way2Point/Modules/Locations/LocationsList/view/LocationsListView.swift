@@ -7,9 +7,11 @@ final class LocationsListView: UIViewController {
     
 //MARK: - Properties of class
     
-    private let viewModel: LocationListViewModelProtocol
+    private var viewModel: LocationListViewModelProtocol
     
     private let tableView = UITableView()
+    private var locations: [TheLocation] = [] 
+    private var images: [[UIImage?]] = []
 
     
     
@@ -41,10 +43,26 @@ final class LocationsListView: UIViewController {
         configureUI()
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        settingNavigationBar()
+        
+        showAlertBinding()
+        updateDataBinding()
+        viewModel.loadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+
+    
+    
+//MARK: - Set navigation's bar options
+    
+    private func settingNavigationBar() {
         title = "locations"
         navigationController?.customColorsScheme()
     }
@@ -70,6 +88,25 @@ final class LocationsListView: UIViewController {
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.showsVerticalScrollIndicator = false
+    }
+    
+    
+    
+//MARK: - viewModel's bindings
+    
+    private func showAlertBinding() {
+        viewModel.showNotificationsAlert = { [weak self] alert in
+            self?.present(alert, animated: true)
+        }
+    }
+    
+    private func updateDataBinding() {
+        viewModel.updateData = { [weak self] locations, images in
+            self?.locations = locations
+            self?.images = images
+            self?.tableView.reloadData()
+        }
     }
 }
 
@@ -80,11 +117,15 @@ final class LocationsListView: UIViewController {
 extension LocationsListView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return locations.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let location = locations[indexPath.row]
+        let number = indexPath.row + 1
+        let image = images[indexPath.row][0]
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "LocationsTableViewCell", for: indexPath) as? LocationsListTableViewCell else { return UITableViewCell() }
         
@@ -95,11 +136,13 @@ extension LocationsListView: UITableViewDelegate, UITableViewDataSource {
             self?.tableView.beginUpdates()
             self?.tableView.endUpdates()
         }
+        
+        cell.fetchLocation(by: number, for: location, image)
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.showDetails()
+        viewModel.showDetails(with: locations[indexPath.row], images[indexPath.row])
     }
 }

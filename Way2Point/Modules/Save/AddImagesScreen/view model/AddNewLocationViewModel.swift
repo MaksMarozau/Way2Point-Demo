@@ -24,7 +24,7 @@ final class AddNewLocationViewModel {
     private let imagePicker: ImagePickerView
     private let locationManager: LocationManagerProtocol
     
-    var movieToStartAppScreen: (() -> Void)?
+    var moveToStartAppScreen: (() -> Void)?
     var addImage: ((UIImage) -> Void)?
     var showNotificationsAlert: ((UIAlertController) -> Void)?
     
@@ -83,15 +83,7 @@ final class AddNewLocationViewModel {
     }
     
     
-    
-//MARK: - Transform the imagesArray to Data
-    
-    private func transformImageArrayToData() {
-        
-    }
-    
-    
-    
+
 //MARK: - Save data with CoreData Manager
     
     private func saveData(name: String, description: String, latitude: Double, longitude: Double, imagesArray: [UIImage]) {
@@ -102,7 +94,7 @@ final class AddNewLocationViewModel {
         switch result {
         case .success(_):
             print("Saved")
-            movieToStartAppScreen?()
+            moveToStartAppScreen?()
         case .failure(let failure):
             print(failure)
             showUserNotification(notificationType: .error, errorDescription: failure.description())
@@ -117,7 +109,8 @@ final class AddNewLocationViewModel {
         
         switch type {
         case .error:
-            let alert = UserNotificationsManager.instance.showAlertWithError(wiht: error ?? "")
+            let alert = UserNotificationsManager.instance.showAlertWithError(by: .error, wiht: error ?? "")
+            showNotificationsAlert?(alert)
         default:
             let alert = UserNotificationsManager.instance.showAlert(by: type)
             showNotificationsAlert?(alert)
@@ -167,6 +160,6 @@ extension AddNewLocationViewModel: AddNewLocationViewModelProtocol {
 //MARK: - Close current page(module) method
     
     func closePage() {
-        movieToStartAppScreen?()
+        moveToStartAppScreen?()
     }
 }

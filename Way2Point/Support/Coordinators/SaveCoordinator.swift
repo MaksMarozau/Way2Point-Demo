@@ -38,7 +38,7 @@ final class SaveCoordinator {
         
         parent.navigationController?.pushViewController(view, animated: true)
         
-        viewModel.movieToStartAppScreen = { [weak self] in
+        viewModel.moveToStartAppScreen = { [weak self] in
             parent.navigationController?.popToRootViewController(animated: false)
             self?.appCoordinator.tabBarController.selectedIndex = 0
         }

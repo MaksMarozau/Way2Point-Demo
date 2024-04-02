@@ -13,6 +13,7 @@ final class UserNotificationsManager {
         case noImage = "Image of the location is missing"
         case gpsNotAvailable = "GPS is not available"
         case error = "Error"
+        case saved = "Congratulate!"
         
         
         func description() -> String {
@@ -28,6 +29,9 @@ final class UserNotificationsManager {
                 return description
             case .error:
                 let description = ""
+                return description
+            case .saved:
+                let description = "Your save was successful"
                 return description
             }
         }
@@ -46,13 +50,27 @@ final class UserNotificationsManager {
     }
     
     
-    func showAlertWithError(wiht error: String) -> UIAlertController {
+    func showAlertWithError(by notification: NotificationType, wiht error: String) -> UIAlertController {
         
-        let title = "Error"
+        let title = notification.rawValue
         let message = error
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
+        
+        return alert
+    }
+    
+    
+    func showAlertWithSuccess(by notification: NotificationType, with compleation: @escaping(() -> Void)) -> UIAlertController {
+        
+        let title = notification.rawValue
+        let message = notification.description()
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: { _ in
+            compleation()
+        }))
         
         return alert
     }

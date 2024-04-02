@@ -17,7 +17,7 @@ class LocationsListTableViewCell: UITableViewCell {
     //struct SubViews
     private let topView = UIView()
     private let photosVisualEffectView = UIView()
-    private let photosCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    private let photoImageView = UIImageView()
     private let sepparatorView = UIView()
     private let descriptionView = UIView()
     
@@ -65,8 +65,8 @@ class LocationsListTableViewCell: UITableViewCell {
         
         contentView.addSubviews(views: markedVisualEffectView, globalVisualEffectView, globalContainerView)
         
-        globalContainerView.addSubviews(views: topView, photosVisualEffectView, photosCollectionView, sepparatorView, descriptionView)
-        
+        globalContainerView.addSubviews(views: topView, photosVisualEffectView, sepparatorView, descriptionView)
+        photosVisualEffectView.addSubview(photoImageView)
         topView.addSubviews(views: topButton, topStackView, numberLabel)
         descriptionView.addSubviews(views: descriptionLabel, openDescriptionButton)
         
@@ -122,18 +122,17 @@ class LocationsListTableViewCell: UITableViewCell {
         photosVisualEffectView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor).isActive = true
         photosVisualEffectView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
-        
-        //photosCollectionView
-        photosCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        photosCollectionView.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 7).isActive = true
-        photosCollectionView.leadingAnchor.constraint(equalTo: globalContainerView.leadingAnchor, constant: 14).isActive = true
-        photosCollectionView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor).isActive = true
-        photosCollectionView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        photoImageView.translatesAutoresizingMaskIntoConstraints = false
+        photoImageView.topAnchor.constraint(equalTo: photosVisualEffectView.topAnchor, constant: 2).isActive = true
+        photoImageView.leadingAnchor.constraint(equalTo: photosVisualEffectView.leadingAnchor, constant: 5).isActive = true
+        photoImageView.trailingAnchor.constraint(equalTo: photosVisualEffectView.trailingAnchor).isActive = true
+        photoImageView.bottomAnchor.constraint(equalTo: photosVisualEffectView.bottomAnchor, constant:  -2).isActive = true
+//        photoImageView.heightAnchor.constraint(equalToConstant: 195).isActive = true
         
         
         //sepparatorView
         sepparatorView.translatesAutoresizingMaskIntoConstraints = false
-        sepparatorView.topAnchor.constraint(equalTo: photosCollectionView.bottomAnchor,constant: 5).isActive = true
+        sepparatorView.topAnchor.constraint(equalTo: photoImageView.bottomAnchor,constant: 5).isActive = true
         sepparatorView.widthAnchor.constraint(equalTo: globalContainerView.widthAnchor).isActive = true
         sepparatorView.heightAnchor.constraint(equalToConstant: 3).isActive = true
         
@@ -224,14 +223,17 @@ class LocationsListTableViewCell: UITableViewCell {
         photosVisualEffectView.backgroundColor = .violetFlower
         photosVisualEffectView.layer.cornerRadius = 15
         photosVisualEffectView.layer.maskedCorners = [.layerMinXMinYCorner]
+        photosVisualEffectView.clipsToBounds = true
         
-        photosCollectionView.backgroundColor = .systemGray5
-        photosCollectionView.layer.cornerRadius = 10
-        photosCollectionView.layer.maskedCorners = [.layerMinXMinYCorner]
+        photoImageView.backgroundColor = .systemGray5
+        photoImageView.layer.cornerRadius = 10
+        photoImageView.layer.maskedCorners = [.layerMinXMinYCorner]
         
         sepparatorView.backgroundColor = .violetRose
         
         descriptionView.backgroundColor = .backgroundCellSupport
+        
+        photoImageView.contentMode = .scaleToFill
         
         
         //nameView's subViews configurations:
@@ -241,13 +243,11 @@ class LocationsListTableViewCell: UITableViewCell {
         nameLable.shadowOffset = CGSize(width: 2, height: 2)
         nameLable.shadowColor = .standartWhite
         nameLable.textAlignment = .center
-        nameLable.text = "Some Name"
         
         gpsOfLocationsLabel.backgroundColor = .clear
         gpsOfLocationsLabel.font = UIFont(name: "Hoefler Text Black Italic", size: 17)
         gpsOfLocationsLabel.textColor = .violetRose
         gpsOfLocationsLabel.textAlignment = .center
-        gpsOfLocationsLabel.text = "gps: 47.38547, 6.03875"
         
         topButton.setAttributedSysImage(imageSize: CGSize(width: 25, height: 25), image: UIImage(systemName: "arrowshape.up.fill"), attributes: [.foregroundColor : UIColor.itemUnselected], state: .normal)
         topButton.setAttributedSysImage(imageSize: CGSize(width: 30, height: 30), image: UIImage(systemName: "arrowshape.up.fill"), attributes: [.foregroundColor : UIColor.itemSelected], state: .highlighted)
@@ -259,7 +259,6 @@ class LocationsListTableViewCell: UITableViewCell {
         numberLabel.shadowOffset = CGSize(width: 2, height: 2)
         numberLabel.shadowColor = .standartWhite
         numberLabel.textAlignment = .center
-        numberLabel.text = "#1"
 
 
         //descriptionView's subView configurations:
@@ -268,7 +267,6 @@ class LocationsListTableViewCell: UITableViewCell {
         descriptionLabel.textColor = .standartBlack
         descriptionLabel.textAlignment = .left
         descriptionLabel.numberOfLines = 1
-        descriptionLabel.text = "Приятное место на опушке леса, где не водятся комары и есть место для безопасного разведения костра."
         
         openDescriptionButton.backgroundColor = .clear
         openDescriptionButton.setImage(UIImage(systemName: "chevron.compact.down"), for: .normal)
@@ -296,5 +294,23 @@ class LocationsListTableViewCell: UITableViewCell {
             descriptionLabel.numberOfLines = 1
             openCloseDescriptionSupport?()
         }
+    }
+    
+    
+    
+//MARK: - Fetching of location's data for current cell
+    
+    public func fetchLocation(by number: Int, for location: TheLocation, _ image: UIImage?) {
+        let number = number
+        let name = location.locName ?? ""
+        let longitude = String(format: "%.5f", location.locLongitude)
+        let latitude = String(format: "%.5f", location.locLatitude)
+        let description = location.locDescpiption
+        
+        numberLabel.text = "#\(number)"
+        nameLable.text = name
+        gpsOfLocationsLabel.text = "gps: \(longitude), \(latitude)"
+        descriptionLabel.text = description
+        photoImageView.image = image
     }
 }

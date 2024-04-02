@@ -7,7 +7,7 @@ final class LocationDetailsView: UIViewController {
     
 //MARK: - Properties of class
     
-    private let viewModel: LocationDetailsViewModelProtocol
+    private var viewModel: LocationDetailsViewModelProtocol
     
     //the main struct views
     private let globalContainerView = UIView()
@@ -18,7 +18,8 @@ final class LocationDetailsView: UIViewController {
     //topContainerView's subViews
     private let nameLocationLable = UILabel()
     private let assistentInfoView = UIView()
-    private let imagesCollactionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let imageCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private var collectionViewLayout = UICollectionViewFlowLayout()
     private let favoriteButton = UIButton()
     
         //assistentInfoView's subViews
@@ -56,6 +57,19 @@ final class LocationDetailsView: UIViewController {
         private let moveButton = UIButton()
         private let deleteButton = UIButton()
     
+    private var location = TheLocation() {
+        didSet {
+            setLocationData(for: location)
+        }
+    }
+    
+    private var images: [UIImage?] = [] {
+        didSet {
+            print(images.count)
+            imageCollectionView.reloadData()
+        }
+    }
+    
     
     
 //MARK: - Initializator
@@ -64,7 +78,6 @@ final class LocationDetailsView: UIViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -77,6 +90,8 @@ final class LocationDetailsView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        appointmentExecutors()
+        
         addSubViews()
         setConstraintes()
         configureUI()
@@ -88,6 +103,14 @@ final class LocationDetailsView: UIViewController {
         super.viewWillAppear(animated)
         
         configureNavigationBar()
+        updateDataBinding()
+        viewModel.getData()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        setupCollectionViewFlowLoyaut()
     }
     
     
@@ -113,7 +136,7 @@ final class LocationDetailsView: UIViewController {
         topVisualEffectView.addSubview(topContainerView)
         
         bottomContainerView.addSubviews(views: topSepatatorView, botSeparatorView, buttonsView, descriptionView)
-        topContainerView.addSubviews(views: nameLocationLable, favoriteButton, assistentInfoView, imagesCollactionView)
+        topContainerView.addSubviews(views: nameLocationLable, favoriteButton, assistentInfoView, imageCollectionView)
         
         
         assistentInfoView.addSubviews(views: gpsLable, marksVerticalStackView, editButton, ratingButton, shareButton)
@@ -178,11 +201,11 @@ final class LocationDetailsView: UIViewController {
         assistentInfoView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         
-        imagesCollactionView.translatesAutoresizingMaskIntoConstraints = false
-        imagesCollactionView.topAnchor.constraint(equalTo: nameLocationLable.bottomAnchor, constant: 12).isActive = true
-        imagesCollactionView.leadingAnchor.constraint(equalTo: topContainerView.leadingAnchor).isActive = true
-        imagesCollactionView.trailingAnchor.constraint(equalTo: topContainerView.trailingAnchor).isActive = true
-        imagesCollactionView.bottomAnchor.constraint(equalTo: gpsLable.topAnchor, constant: -12).isActive = true
+        imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        imageCollectionView.topAnchor.constraint(equalTo: nameLocationLable.bottomAnchor, constant: 12).isActive = true
+        imageCollectionView.leadingAnchor.constraint(equalTo: topContainerView.leadingAnchor).isActive = true
+        imageCollectionView.trailingAnchor.constraint(equalTo: topContainerView.trailingAnchor).isActive = true
+        imageCollectionView.bottomAnchor.constraint(equalTo: assistentInfoView.topAnchor, constant: -12).isActive = true
         
         
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
@@ -292,6 +315,37 @@ final class LocationDetailsView: UIViewController {
     
     
     
+//MARK: - Appointment of delegates and data sources
+        
+    private func appointmentExecutors() {
+        
+        imageCollectionView.register(DetailLocationCollectionViewCell.self, forCellWithReuseIdentifier: "DetailLocationCollectionViewCell")
+        imageCollectionView.dataSource = self
+        imageCollectionView.delegate = self
+    }
+        
+        
+        
+//MARK: - Setup flow layouts fot collection view
+        
+    private func setupCollectionViewFlowLoyaut() {
+        var width: CGFloat = 0
+        var height: CGFloat = 0
+        if images.count < 2 {
+            width = imageCollectionView.frame.width
+            height = imageCollectionView.frame.height
+        } else {
+            width = imageCollectionView.frame.width * 0.77
+            height = imageCollectionView.frame.height * 0.9
+        }
+        collectionViewLayout.itemSize = CGSize(width: width, height: height)
+        collectionViewLayout.scrollDirection = .horizontal
+        collectionViewLayout.minimumLineSpacing = 5
+        imageCollectionView.collectionViewLayout = collectionViewLayout
+    }
+    
+    
+    
 //MARK: - Configuration of User Interface
     
     private func configureUI() {
@@ -322,25 +376,23 @@ final class LocationDetailsView: UIViewController {
         
         //topContainerView's subViews
         nameLocationLable.backgroundColor = .clear
-        nameLocationLable.font = UIFont(name: "Futura Bold", size: 21)
+        nameLocationLable.font = UIFont(name: "Futura Bold", size: 24)
         nameLocationLable.textColor = .standartBlack
         nameLocationLable.shadowOffset = CGSize(width: 3, height: 3)
         nameLocationLable.shadowColor = .standartWhite
         nameLocationLable.textAlignment = .center
         nameLocationLable.numberOfLines = 1
-        nameLocationLable.text = "Name of Location"
         
         favoriteButton.setBackgroundImage(UIImage(systemName: "star"), for: .normal)
         favoriteButton.tintColor = .yellow
         
-        imagesCollactionView.backgroundColor = .backgroundBar
+        imageCollectionView.backgroundColor = .clear
 
         gpsLable.backgroundColor = .clear
         gpsLable.font = UIFont(name: "Hoefler Text Black Italic", size: 17)
         gpsLable.textColor = .violetRose
         gpsLable.textAlignment = .left
         gpsLable.numberOfLines = 3
-        gpsLable.text = "GPS: \nlat: 47.38547, \nlong: 6.03875"
         
         marksVerticalStackView.axis = .vertical
         marksVerticalStackView.distribution = .fillProportionally
@@ -407,7 +459,6 @@ final class LocationDetailsView: UIViewController {
         descriptionLabel.textColor = .standartBlack
         descriptionLabel.font = UIFont.systemFont(ofSize: 14, weight: .black)
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.text = "SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ SomeText __ "
         
         moveButton.backgroundColor = .backgroundCellSupport
         moveButton.setTitle("Move to", for: .normal)
@@ -470,17 +521,55 @@ final class LocationDetailsView: UIViewController {
     
     
     
-//MARK: - Works out before view will start
+//MARK: - ViewModel's bindings
     
-//    private func viewWillStart() {
-//        
-//    }
+    private func updateDataBinding() {
+        viewModel.updateData = { [weak self] location, images in
+            self?.location = location
+            self?.images = images
+            self?.imageCollectionView.reloadData()
+        }
+    }
+    
+    
+    
+//MARK: - Set current data
+    
+    private func setLocationData(for location: TheLocation) {
+        let name = location.locName ?? ""
+        let longitude = String(format: "%.5f", location.locLongitude)
+        let latitude = String(format: "%.5f", location.locLatitude)
+        let description = location.locDescpiption
+        
+        nameLocationLable.text = name
+        gpsLable.text = "GPS: \nlat: \(longitude), \nlong: \(latitude)"
+        descriptionLabel.text = description
+    }
 }
-
-
-
-//MARK: - Extention Extention for MainScreenView with protocol MainScreenViewInputProtocol
-
-//    extension MainScreenView: MainScreenViewInputProtocol {
     
-//    }
+
+
+//MARK: - Extension
+
+extension LocationDetailsView: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let itemCount = images.count
+        print("Number of items in section: \(itemCount)")
+        return itemCount
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        print("collectionView(_:cellForItemAt:) called for indexPath: \(indexPath)")
+        
+        let image = images[indexPath.item]
+        print("123")
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DetailLocationCollectionViewCell", for: indexPath) as? DetailLocationCollectionViewCell else { return UICollectionViewCell() }
+        
+        cell.addImage(image)
+        return cell
+    }
+}

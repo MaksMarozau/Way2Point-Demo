@@ -122,7 +122,7 @@ final class SaveTitleView: UIViewController {
         let attributedString = NSMutableAttributedString(string: text)
         let range = (text as NSString).range(of: text)
         let attributes: [NSAttributedString.Key : Any] = [
-            .font : UIFont(name: "Futura Bold", size: 32),
+            .font : UIFont(name: "Futura Bold", size: 32) ?? UIFont.systemFont(ofSize: 32),
             .foregroundColor : UIColor.violetFlower,
             .strokeColor : UIColor.violetRose,
             .strokeWidth : -3,
@@ -156,7 +156,7 @@ final class SaveTitleView: UIViewController {
 //MARK: - Animations
     
     private func setAnimations() {
-        UIView.animate(withDuration: 1.5, delay: 1, options: [.autoreverse, .repeat]) {
+        UIView.animate(withDuration: 1.3, delay: 0, options: [.autoreverse, .repeat]) {
             self.instructionLabel.alpha = 0.1
         } completion: { _ in
             self.instructionLabel.alpha = 1

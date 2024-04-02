@@ -246,6 +246,12 @@ final class AddNewLocationView: UIViewController {
     
     private func setHardLayers() {
         
+        let imageShadowPath = UIBezierPath(rect: imageContainerView.bounds)
+        imageContainerView.layer.shadowPath = imageShadowPath.cgPath
+        
+        let descriptionShadowPath = UIBezierPath(rect: descriptionContainerView.bounds)
+        descriptionContainerView.layer.shadowPath = descriptionShadowPath.cgPath
+        
         imageContainerView.layer.shadowColor = UIColor.violetRose.cgColor
         imageContainerView.layer.shadowOffset = CGSize(width: 5, height: 5)
         imageContainerView.layer.shadowOpacity = 0.6
@@ -339,7 +345,6 @@ final class AddNewLocationView: UIViewController {
             self?.titleImageView.image = self?.imagesArray.last
         }
     }
-    
     
     private func showNotificationsAlert() {
         

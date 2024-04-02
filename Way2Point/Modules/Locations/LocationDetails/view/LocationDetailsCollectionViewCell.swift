@@ -1,8 +1,8 @@
 import UIKit
 
-//MARK: - Final class AddNewLocationCollectionViewCell
+//MARK: - Final class DetailLocationCollectionViewCell
 
-final class AddNewLocationCollectionViewCell: UICollectionViewCell {
+final class DetailLocationCollectionViewCell: UICollectionViewCell {
     
     
 //MARK: - Properties of class
@@ -55,9 +55,9 @@ final class AddNewLocationCollectionViewCell: UICollectionViewCell {
         
         containerView.backgroundColor = .clear
         
-        imageView.layer.cornerRadius = 12
+        imageView.layer.cornerRadius = 5
         imageView.clipsToBounds = true
-        imageView.layer.borderWidth = 1
+        imageView.layer.borderWidth = 2
         imageView.layer.borderColor = UIColor.standartBlack.cgColor
         imageView.contentMode = .scaleAspectFill
     }
