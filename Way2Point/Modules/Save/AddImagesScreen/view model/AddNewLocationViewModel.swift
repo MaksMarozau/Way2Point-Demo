@@ -13,7 +13,6 @@ protocol AddNewLocationViewModelProtocol {
 }
 
 
-
 //MARK: - Final class AddNewLocationViewModel
 
 final class AddNewLocationViewModel {
@@ -33,14 +32,12 @@ final class AddNewLocationViewModel {
     private var longitude: Double = 0
     
     
-    
 //MARK: - Initializator
     
     init(imagePicker: ImagePickerView, locationManager: LocationManagerProtocol) {
         self.imagePicker = imagePicker
         self.locationManager = locationManager
     }
-    
     
     
 //MARK: - Show ActionSheet to coose the adding picture method and provide the current picture to view
@@ -66,7 +63,6 @@ final class AddNewLocationViewModel {
         viewController.present(actionSheet, animated: true)
     }
     
-    
     private func provideImage(_ image: UIImage?) {
         if let image {
             addImage?(image)
@@ -74,14 +70,12 @@ final class AddNewLocationViewModel {
     }
     
     
-    
 //MARK: - Getting of current gps
     
     private func getGPS() {
-        latitude = locationManager.getLocationsLatitude()
-        longitude = locationManager.getLocationsLongitude()
+        latitude = locationManager.getCurrentLatitude()
+        longitude = locationManager.getCurrentLongitude()
     }
-    
     
 
 //MARK: - Save data with CoreData Manager
@@ -94,13 +88,12 @@ final class AddNewLocationViewModel {
         switch result {
         case .success(_):
             print("Saved")
-            moveToStartAppScreen?()
+            closePage()
         case .failure(let failure):
             print(failure)
             showUserNotification(notificationType: .error, errorDescription: failure.description())
         }
     }
-    
     
     
 //MARK: - Show notification on the screen
@@ -119,18 +112,14 @@ final class AddNewLocationViewModel {
 }
 
 
-
 //MARK: - Impemendation of the AddNewLocationViewModelProtocol
 
 extension AddNewLocationViewModel: AddNewLocationViewModelProtocol {
     
-    
 //MARK: - Save the current location
     
     func saveCurrentLocation(with name: String, _ description: String) {
-        
         getGPS()
-        
         guard name != "" && description != "Enter the description of location, please" && description !=  "" else {
             showUserNotification(notificationType: .empetyTextField, errorDescription: nil)
             return
@@ -143,10 +132,8 @@ extension AddNewLocationViewModel: AddNewLocationViewModelProtocol {
             showUserNotification(notificationType: .noImage, errorDescription: nil)
             return
         }
-        
         saveData(name: name, description: description, latitude: latitude, longitude: longitude, imagesArray: imagesArray)
     }
-    
     
     
 //MARK: - Adding of new image to view
@@ -156,10 +143,9 @@ extension AddNewLocationViewModel: AddNewLocationViewModelProtocol {
     }
     
     
-    
 //MARK: - Close current page(module) method
     
     func closePage() {
-        moveToStartAppScreen?()
+        self.moveToStartAppScreen?()
     }
 }

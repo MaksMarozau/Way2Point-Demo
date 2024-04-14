@@ -43,12 +43,10 @@ final class AddNewLocationView: UIViewController {
     }
     
     
-    
 //MARK: - Lifecycle of controller
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         addSubviews()
         setConstraintes()
         configureUI()
@@ -57,14 +55,12 @@ final class AddNewLocationView: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         configureNavigationBar()
         addNotificationCenterObservers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         setupFlowLoyaut()
         addImage()
         showNotificationsAlert()
@@ -72,15 +68,12 @@ final class AddNewLocationView: UIViewController {
     }
     
     
-    
 //MARK: - Configurations of Navigation bar
     
     private func configureNavigationBar() {
-        
         navigationItem.hidesBackButton = true
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Add new"
-        
         
         let saveButton = UIBarButtonItem(systemItem: .save, primaryAction: UIAction(handler: { _ in
             let name = self.nameOfLocationTextField.text ?? ""
@@ -90,7 +83,6 @@ final class AddNewLocationView: UIViewController {
         saveButton.tintColor = UIColor.violetRose
         saveButton.style = .done
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = saveButton
-        
         
         let closeButton = UIBarButtonItem(systemItem: .close, primaryAction: UIAction(handler: { _ in
             UIView.animate(withDuration: 0.7) {
@@ -103,7 +95,6 @@ final class AddNewLocationView: UIViewController {
         closeButton.style = .done
         navigationController?.topViewController?.navigationItem.leftBarButtonItem = closeButton
     }
-    
     
     
 //MARK: - Add subviews
@@ -120,11 +111,9 @@ final class AddNewLocationView: UIViewController {
     }
     
     
-    
 //MARK: - Setting of constraintes
     
     private func setConstraintes() {
-          
         imageContainerView.translatesAutoresizingMaskIntoConstraints = false
         imageContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 33).isActive = true
         imageContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -136,7 +125,6 @@ final class AddNewLocationView: UIViewController {
         descriptionContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -33).isActive = true
         descriptionContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         descriptionContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
-        
         
         //imageContainerView's subviews
         titleImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -166,7 +154,6 @@ final class AddNewLocationView: UIViewController {
         imagesCollectionView.leadingAnchor.constraint(equalTo: collectionsBackgroundView.leadingAnchor, constant: 9).isActive = true
         imagesCollectionView.trailingAnchor.constraint(equalTo: collectionsBackgroundView.trailingAnchor, constant: -9).isActive = true
         
-        
         //descriptionContainerView's subviews
         nameOfLocationTextField.translatesAutoresizingMaskIntoConstraints = false
         nameOfLocationTextField.topAnchor.constraint(equalTo: descriptionContainerView.topAnchor, constant: 9).isActive = true
@@ -182,11 +169,9 @@ final class AddNewLocationView: UIViewController {
     }
     
     
-    
 //MARK: - Configuration of User Interface
     
     private func configureUI() {
-        
         imageContainerView.backgroundColor = .clear
         imageContainerView.layer.cornerRadius = 10
         imageContainerView.layer.borderWidth = 3
@@ -196,7 +181,6 @@ final class AddNewLocationView: UIViewController {
         descriptionContainerView.layer.cornerRadius = 10
         descriptionContainerView.layer.borderWidth = 3
         descriptionContainerView.layer.borderColor = UIColor.violetFlower.cgColor
-        
         
         //imageContainerView's subviews
         titleImageView.backgroundColor = .backgroundBar
@@ -217,7 +201,6 @@ final class AddNewLocationView: UIViewController {
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         imagesCollectionView.backgroundColor = .clear
-       
         
         //descriptionContainerView's subviews
         nameOfLocationTextField.backgroundColor = .backgroundCellSupport
@@ -241,11 +224,9 @@ final class AddNewLocationView: UIViewController {
     }
     
     
-    
 //MARK: - Setting of hard shadows and animations
     
     private func setHardLayers() {
-        
         let imageShadowPath = UIBezierPath(rect: imageContainerView.bounds)
         imageContainerView.layer.shadowPath = imageShadowPath.cgPath
         
@@ -264,11 +245,9 @@ final class AddNewLocationView: UIViewController {
     }
     
     
-    
 //MARK: - Appointment of delegates and data sources
     
     private func appointmentExecutors() {
-        
         imagesCollectionView.register(AddNewLocationCollectionViewCell.self, forCellWithReuseIdentifier: "AddNewLocationCollectionViewCell")
         imagesCollectionView.dataSource = self
         imagesCollectionView.delegate = self
@@ -276,7 +255,6 @@ final class AddNewLocationView: UIViewController {
         nameOfLocationTextField.delegate = self
         descriptionOfLocationTextView.delegate = self
     }
-    
     
     
 //MARK: - Setup flow layouts fot collection view
@@ -291,21 +269,17 @@ final class AddNewLocationView: UIViewController {
     }
     
     
-    
 //MARK: - Adding of observers from the Notification center
     
     private func addNotificationCenterObservers() {
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     
-    
 //MARK: - Actions
     
     @objc private func addImageTapped() {
-        
         viewModel.addNewImage(to: self)
     }
     
@@ -336,7 +310,6 @@ final class AddNewLocationView: UIViewController {
     }
     
     
-    
 //MARK: - Implementation of viewModel bindings
     
     private func addImage() {
@@ -347,13 +320,11 @@ final class AddNewLocationView: UIViewController {
     }
     
     private func showNotificationsAlert() {
-        
         viewModel.showNotificationsAlert = { [weak self] alert in
             self?.present(alert, animated: true)
         }
     }
 }
-
 
 
 //MARK: - Extension for class AddNewLocationView with UITextField's delegate protocol
@@ -365,7 +336,6 @@ extension AddNewLocationView: UITextFieldDelegate {
         return true
     }
 }
-
 
 
 //MARK: - Extension for class AddNewLocationView with UITextView's delegate protocol to put / put away a placeholder
@@ -398,7 +368,6 @@ extension AddNewLocationView: UITextViewDelegate {
 }
 
 
-
 //MARK: - Extension for AddNewLocationView to expand with UICollectionView's protocols
 
 extension AddNewLocationView: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -406,7 +375,6 @@ extension AddNewLocationView: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imagesArray.count
     }
-    
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

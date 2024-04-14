@@ -5,15 +5,11 @@ protocol SettingsScreenViewModelProtocol {
 }
 
 
-
 //MARK: - Final class SettingsScreenViewModel
 
 final class SettingsScreenViewModel {
-    
-    
-    
+        
 }
-
 
 
 //MARK: - Impemendation of the SettingsScreenViewModelProtocol

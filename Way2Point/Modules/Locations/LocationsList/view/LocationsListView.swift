@@ -10,10 +10,10 @@ final class LocationsListView: UIViewController {
     private var viewModel: LocationListViewModelProtocol
     
     private let tableView = UITableView()
-    private var locations: [TheLocation] = [] 
+    private let loadingProcessIndicator = UIActivityIndicatorView(style: .large)
+    private var locations: [TheLocation] = []
     private var images: [[UIImage?]] = []
 
-    
     
 //MARK: - Initializators
     
@@ -27,7 +27,6 @@ final class LocationsListView: UIViewController {
     }
     
     
-    
 //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -37,7 +36,8 @@ final class LocationsListView: UIViewController {
         tableView.dataSource = self
         tableView.register(LocationsListTableViewCell.self, forCellReuseIdentifier: "LocationsTableViewCell")
         
-        view.addSubview(tableView)
+        loadingProcessIndicator.center = view.center
+        view.addSubviews(views: tableView, loadingProcessIndicator)
 
         constraintes()
         configureUI()
@@ -50,15 +50,10 @@ final class LocationsListView: UIViewController {
         
         showAlertBinding()
         updateDataBinding()
+        loadingProcessIndicator.startAnimating()
         viewModel.loadData()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
 
-    
     
 //MARK: - Set navigation's bar options
     
@@ -68,18 +63,15 @@ final class LocationsListView: UIViewController {
     }
     
     
-    
 //MARK: - Constraintes
     
     private func constraintes() {
-        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -2).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12).isActive = true
     }
-    
     
     
 //MARK: - Configure UI
@@ -89,8 +81,9 @@ final class LocationsListView: UIViewController {
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
         tableView.showsVerticalScrollIndicator = false
+        
+        loadingProcessIndicator.hidesWhenStopped = true
     }
-    
     
     
 //MARK: - viewModel's bindings
@@ -98,6 +91,7 @@ final class LocationsListView: UIViewController {
     private func showAlertBinding() {
         viewModel.showNotificationsAlert = { [weak self] alert in
             self?.present(alert, animated: true)
+            self?.loadingProcessIndicator.stopAnimating()
         }
     }
     
@@ -106,10 +100,10 @@ final class LocationsListView: UIViewController {
             self?.locations = locations
             self?.images = images
             self?.tableView.reloadData()
+            self?.loadingProcessIndicator.stopAnimating()
         }
     }
 }
-
 
 
 //MARK: Extentions for class LocationsListView [UITableViewDelegate, UITableViewDataSource]
@@ -120,12 +114,11 @@ extension LocationsListView: UITableViewDelegate, UITableViewDataSource {
         return locations.count
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let location = locations[indexPath.row]
         let number = indexPath.row + 1
-        let image = images[indexPath.row][0]
+        let currentImagesArray = images[indexPath.row]
+        let image = currentImagesArray.first as? UIImage
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "LocationsTableViewCell", for: indexPath) as? LocationsListTableViewCell else { return UITableViewCell() }
         
@@ -140,7 +133,6 @@ extension LocationsListView: UITableViewDelegate, UITableViewDataSource {
         cell.fetchLocation(by: number, for: location, image)
         return cell
     }
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.showDetails(with: locations[indexPath.row], images[indexPath.row])

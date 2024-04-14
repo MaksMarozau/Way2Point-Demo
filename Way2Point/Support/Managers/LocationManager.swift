@@ -1,20 +1,26 @@
 import MapKit
 
+//MARK: - Location manager's protocol to get cerrent latitude/longitude
+
 protocol LocationManagerProtocol {
-    
-    func getLocationsLatitude() -> Double
-    func getLocationsLongitude() -> Double
+    func getCurrentLatitude() -> Double
+    func getCurrentLongitude() -> Double
 }
 
 
+//MARK: - Final class LocationManager
 
 final class LocationManager: NSObject, CLLocationManagerDelegate {
         
+    
+//MARK: - Properties of class
+    
     private let locationManager = CLLocationManager()
+    private var longitude = Double()
+    private var latitude = Double()
     
-    private var longitude: Double = 0
-    private var latitude: Double = 0
     
+//MARK: - Initialization
     
     override init() {
         super.init()
@@ -31,7 +37,9 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//MARK: - Updating of current location
+    
+    internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last?.coordinate {
             self.latitude = location.latitude
             self.longitude = location.longitude
@@ -40,15 +48,15 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
 }
 
 
+//MARK: - Implemendation of protocol's methods
 
 extension LocationManager : LocationManagerProtocol {
     
-    func getLocationsLatitude() -> Double {
+    func getCurrentLatitude() -> Double {
         return latitude
     }
         
-        
-    func getLocationsLongitude() -> Double {
+    func getCurrentLongitude() -> Double {
         return longitude
     }
 }

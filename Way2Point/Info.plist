@@ -2,14 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>To get current gps and save it into the current location info</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>To get current gps and save it into the current location info</string>
-	<key>NSCameraUsageDescription</key>
-	<string>For make the photos of the location</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>For choose the photo in gallery for the location</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -1,4 +1,5 @@
 import UIKit
+import CoreLocation
 
 //MARK: - Final class AppCoordinator - Creating and managing for TabBarController
 
@@ -12,7 +13,7 @@ final class AppCoordinator {
     
     private var locationsCoordinator: LocationsCoordinator?
     private var saveCoordinator: SaveCoordinator?
-    private var navigationCoordinator: NavigationCoordinator?
+    internal var navigationCoordinator: NavigationCoordinator?
     private var toolsCoordinator: ToolsCoordinator?
     private var settingsCoordinator: SettingsCoordinator?
 
@@ -45,14 +46,13 @@ final class AppCoordinator {
 }
 
 
-
 //MARK: - Extension for AppCoordinator - Adding private methods, which created UIViewControllers as rootViewControllers for each of the TabBar Items.
 
 private extension AppCoordinator {
     
     //locationController
     private func createLocationController() {
-        locationsCoordinator = LocationsCoordinator()
+        locationsCoordinator = LocationsCoordinator(appCoordinator: self)
         
         guard let locationController = locationsCoordinator?.start() else { return }
         locationController.tabBarItem = UITabBarItem(title: "Locations", image: UIImage(systemName: "location.fill.viewfinder"), tag: 0)
@@ -74,7 +74,8 @@ private extension AppCoordinator {
     
     //naviController
     private func createNaviController() {
-        navigationCoordinator = NavigationCoordinator()
+        let northCoordinate = CLLocationCoordinate2D(latitude: 90.0000, longitude: 0.0000)
+        navigationCoordinator = NavigationCoordinator(coordinate: northCoordinate)
         
         guard let naviController = navigationCoordinator?.start() else { return }
         naviController.tabBarItem = UITabBarItem(title: "Navi", image: UIImage(systemName: "location.fill"), tag: 2)

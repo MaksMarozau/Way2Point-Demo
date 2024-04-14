@@ -5,7 +5,6 @@ import UIKit.UITabBarController
 extension UITabBarController {
     
     func customeColorsScheme() {
-        
         view.backgroundColor = .backgroundView
 
         let appearance = UITabBarAppearance()

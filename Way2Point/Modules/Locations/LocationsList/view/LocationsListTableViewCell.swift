@@ -34,12 +34,7 @@ class LocationsListTableViewCell: UITableViewCell {
     private let nameLable = UILabel()
     private let gpsOfLocationsLabel = UILabel()
     
-    
-    
-    //MARK: - Supporting properties
-    
     var openCloseDescriptionSupport: (() -> ())?
-    
     
     
 //MARK: - Initializations
@@ -52,17 +47,14 @@ class LocationsListTableViewCell: UITableViewCell {
         configureUI()
     }
     
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
-    
 //MARK: - Adding of subViews
     
     private func addSubViews() {
-        
         contentView.addSubviews(views: markedVisualEffectView, globalVisualEffectView, globalContainerView)
         
         globalContainerView.addSubviews(views: topView, photosVisualEffectView, sepparatorView, descriptionView)
@@ -74,11 +66,9 @@ class LocationsListTableViewCell: UITableViewCell {
     }
     
     
-    
 //MARK: - Constraintes
     
     private func setConstraintes() {
-        
         //contentView SubViews constraintes:
         //markedVisualEffectView
         markedVisualEffectView.translatesAutoresizingMaskIntoConstraints = false
@@ -88,7 +78,6 @@ class LocationsListTableViewCell: UITableViewCell {
         markedVisualEffectView.heightAnchor.constraint(equalToConstant: 55).isActive = true
         markedVisualEffectView.isHidden = true
         
-        
         //globalVisualEffectView
         globalVisualEffectView.translatesAutoresizingMaskIntoConstraints = false
         globalVisualEffectView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
@@ -96,15 +85,12 @@ class LocationsListTableViewCell: UITableViewCell {
         globalVisualEffectView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         globalVisualEffectView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         
-        
         //globalContainerView
         globalContainerView.translatesAutoresizingMaskIntoConstraints = false
         globalContainerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 17).isActive = true
         globalContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
         globalContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         globalContainerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        
-
         
         //globalContainerView's subViews constraintes:
         //topView
@@ -114,7 +100,6 @@ class LocationsListTableViewCell: UITableViewCell {
         topView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor, constant: -12).isActive = true
         topView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
- 
         //photosVisualEffectView
         photosVisualEffectView.translatesAutoresizingMaskIntoConstraints = false
         photosVisualEffectView.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 5).isActive = true
@@ -127,8 +112,6 @@ class LocationsListTableViewCell: UITableViewCell {
         photoImageView.leadingAnchor.constraint(equalTo: photosVisualEffectView.leadingAnchor, constant: 5).isActive = true
         photoImageView.trailingAnchor.constraint(equalTo: photosVisualEffectView.trailingAnchor).isActive = true
         photoImageView.bottomAnchor.constraint(equalTo: photosVisualEffectView.bottomAnchor, constant:  -2).isActive = true
-//        photoImageView.heightAnchor.constraint(equalToConstant: 195).isActive = true
-        
         
         //sepparatorView
         sepparatorView.translatesAutoresizingMaskIntoConstraints = false
@@ -136,7 +119,6 @@ class LocationsListTableViewCell: UITableViewCell {
         sepparatorView.widthAnchor.constraint(equalTo: globalContainerView.widthAnchor).isActive = true
         sepparatorView.heightAnchor.constraint(equalToConstant: 3).isActive = true
         
-
         //descriptionView
         descriptionView.translatesAutoresizingMaskIntoConstraints = false
         descriptionView.topAnchor.constraint(equalTo: sepparatorView.bottomAnchor).isActive = true
@@ -144,8 +126,6 @@ class LocationsListTableViewCell: UITableViewCell {
         descriptionView.trailingAnchor.constraint(equalTo: globalContainerView.trailingAnchor).isActive = true
         descriptionView.bottomAnchor.constraint(equalTo: globalContainerView.bottomAnchor).isActive = true
         descriptionView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60).isActive = true
-        
-        
         
         //topView's subViews constraintes:
         //topStackView
@@ -155,14 +135,12 @@ class LocationsListTableViewCell: UITableViewCell {
         topStackView.heightAnchor.constraint(equalTo: topView.heightAnchor, multiplier: 1).isActive = true
         topStackView.widthAnchor.constraint(equalTo: topView.widthAnchor, multiplier: 0.7).isActive = true
         
-        
         //topbutton
         topButton.translatesAutoresizingMaskIntoConstraints = false
         topButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
         topButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor).isActive = true
         topButton.widthAnchor.constraint(equalTo: topView.widthAnchor, multiplier: 0.15).isActive = true
         topButton.heightAnchor.constraint(equalTo: topButton.heightAnchor).isActive = true
-        
         
         //numberLabel
         numberLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -171,15 +149,12 @@ class LocationsListTableViewCell: UITableViewCell {
         numberLabel.widthAnchor.constraint(equalTo: topView.widthAnchor, multiplier: 0.15).isActive = true
         numberLabel.heightAnchor.constraint(equalTo: topButton.heightAnchor).isActive = true
         
-        
-        
         //descriptionView's subViews constraintes:
         //descriptionLabel
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.topAnchor.constraint(equalTo: descriptionView.topAnchor, constant: 5).isActive = true
         descriptionLabel.leadingAnchor.constraint(equalTo: descriptionView.leadingAnchor, constant: 12).isActive = true
         descriptionLabel.trailingAnchor.constraint(equalTo: descriptionView.trailingAnchor, constant: -12).isActive = true
-        
         
         //openDescriptionButton
         openDescriptionButton.translatesAutoresizingMaskIntoConstraints = false
@@ -188,12 +163,10 @@ class LocationsListTableViewCell: UITableViewCell {
         openDescriptionButton.widthAnchor.constraint(equalTo: descriptionView.widthAnchor, multiplier: 1).isActive = true
     }
     
-    
 
 //MARK: - Configurations UI
     
     private func configureUI() {
-        
         //Global views
         markedVisualEffectView.backgroundColor = .yellow
         markedVisualEffectView.layer.borderColor = UIColor.black.cgColor
@@ -211,7 +184,6 @@ class LocationsListTableViewCell: UITableViewCell {
         globalContainerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMaxYCorner]
         globalContainerView.clipsToBounds = true
         
-        
         //globalContainerView's subViews configurations
         topView.backgroundColor = .backgroundCell
         
@@ -228,13 +200,11 @@ class LocationsListTableViewCell: UITableViewCell {
         photoImageView.backgroundColor = .systemGray5
         photoImageView.layer.cornerRadius = 10
         photoImageView.layer.maskedCorners = [.layerMinXMinYCorner]
-        
+        photoImageView.contentMode = .scaleAspectFit
+
         sepparatorView.backgroundColor = .violetRose
         
         descriptionView.backgroundColor = .backgroundCellSupport
-        
-        photoImageView.contentMode = .scaleToFill
-        
         
         //nameView's subViews configurations:
         nameLable.backgroundColor = .clear
@@ -260,7 +230,6 @@ class LocationsListTableViewCell: UITableViewCell {
         numberLabel.shadowColor = .standartWhite
         numberLabel.textAlignment = .center
 
-
         //descriptionView's subView configurations:
         descriptionLabel.backgroundColor = .clear
         descriptionLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
@@ -275,13 +244,11 @@ class LocationsListTableViewCell: UITableViewCell {
     }
     
     
-    
 //MARK: - Actions
     
     @objc private func topTapped() {
         print("TOPTOP")
     }
-    
     
     @objc private func openTapped() {
         openDescriptionButton.isSelected.toggle()
@@ -295,7 +262,6 @@ class LocationsListTableViewCell: UITableViewCell {
             openCloseDescriptionSupport?()
         }
     }
-    
     
     
 //MARK: - Fetching of location's data for current cell

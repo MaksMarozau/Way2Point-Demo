@@ -1,9 +1,10 @@
 import UIKit.UIButton
 
+//MARK: - Set the opportunity to change some attributes for system images apply to a button
+
 extension UIButton {
     
     func setAttributedSysImage(imageSize size: CGSize, image: UIImage?, attributes attrs: [NSAttributedString.Key : Any], state: UIControl.State) {
-        
         let attachement = NSTextAttachment()
         let size = size
         attachement.image = image?.withRenderingMode(.alwaysTemplate)

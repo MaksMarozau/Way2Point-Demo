@@ -7,14 +7,12 @@ import UIKit
 final class CoreDataManager: NSCopying {
 
     static let instance = CoreDataManager()
-    
     private init() { }
     
     func copy(with zone: NSZone? = nil) -> Any {
         self
     }
     
-   
     
 //MARK: - Saving of current location
     
@@ -55,12 +53,11 @@ final class CoreDataManager: NSCopying {
         return .success(())
     }
     
-    
   
 //MARK: - Loading of locations array
     
     func loadLocations() -> Result<[TheLocation], CoreDataError> {
-        
+
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return .failure(.appDelegateError) }
         
         let managedContext  = appDelegate.persistentContainer.viewContext
@@ -80,7 +77,6 @@ final class CoreDataManager: NSCopying {
         
         return .success(locations)
     }
-    
     
     
 //MARK: - Delete data method
@@ -107,5 +103,3 @@ final class CoreDataManager: NSCopying {
         return .success(())
     }
 }
-
-

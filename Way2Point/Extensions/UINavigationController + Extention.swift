@@ -5,7 +5,6 @@ import UIKit.UINavigationController
 extension UINavigationController {
     
     func customColorsScheme() {
-        
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         

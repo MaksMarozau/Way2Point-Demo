@@ -5,7 +5,6 @@ final class ToolsMainScreenView: UIViewController {
     private let viewModel: ToolsMainScreenViewModelProtocol
     
     
-    
     init(viewModel: ToolsMainScreenViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -16,9 +15,7 @@ final class ToolsMainScreenView: UIViewController {
     }
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 }

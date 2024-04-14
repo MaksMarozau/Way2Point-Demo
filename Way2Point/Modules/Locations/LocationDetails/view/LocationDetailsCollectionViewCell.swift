@@ -9,8 +9,7 @@ final class DetailLocationCollectionViewCell: UICollectionViewCell {
     
     private let containerView = UIView()
     private let imageView = UIImageView()
-    
-    
+
     
 //MARK: - Initializators
     
@@ -29,11 +28,9 @@ final class DetailLocationCollectionViewCell: UICollectionViewCell {
     }
     
     
-    
 //MARK: - Setting of constraintes
     
     private func setConstraintes() {
-        
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
@@ -48,11 +45,9 @@ final class DetailLocationCollectionViewCell: UICollectionViewCell {
     }
     
     
-    
 //MARK: - Configuration of UI
     
     private func configureUI() {
-        
         containerView.backgroundColor = .clear
         
         imageView.layer.cornerRadius = 5
@@ -61,7 +56,6 @@ final class DetailLocationCollectionViewCell: UICollectionViewCell {
         imageView.layer.borderColor = UIColor.standartBlack.cgColor
         imageView.contentMode = .scaleAspectFill
     }
-    
     
 
 //MARK: - Add content

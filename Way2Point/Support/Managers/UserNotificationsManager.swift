@@ -1,12 +1,14 @@
 import UIKit.UIAlertController
 
+//MARK: - Final class UserNotificationsManager
 
 final class UserNotificationsManager {
     
     static let instance = UserNotificationsManager()
-    
     private init() { }
     
+    
+//MARK: - Enum with notification types where returns some description of notification
     
     enum NotificationType: String {
         case empetyTextField = "Text field is empty"
@@ -14,7 +16,6 @@ final class UserNotificationsManager {
         case gpsNotAvailable = "GPS is not available"
         case error = "Error"
         case saved = "Congratulate!"
-        
         
         func description() -> String {
             switch self {
@@ -37,9 +38,10 @@ final class UserNotificationsManager {
         }
     }
     
+
+//MARK: - Method to show simple alert on some screen (public)
     
-    func showAlert(by notification: NotificationType) -> UIAlertController {
-        
+    public func showAlert(by notification: NotificationType) -> UIAlertController {
         let title = notification.rawValue
         let message = notification.description()
         
@@ -50,8 +52,9 @@ final class UserNotificationsManager {
     }
     
     
-    func showAlertWithError(by notification: NotificationType, wiht error: String) -> UIAlertController {
-        
+//MARK: - Method to show alert with error on some screen (public)
+    
+    public func showAlertWithError(by notification: NotificationType, wiht error: String) -> UIAlertController {
         let title = notification.rawValue
         let message = error
         
@@ -61,9 +64,10 @@ final class UserNotificationsManager {
         return alert
     }
     
+
+//MARK: - Method to show alert with notification of some successful operation on some screen (public)
     
-    func showAlertWithSuccess(by notification: NotificationType, with compleation: @escaping(() -> Void)) -> UIAlertController {
-        
+    public func showAlertWithSuccess(by notification: NotificationType, with compleation: @escaping(() -> Void)) -> UIAlertController {
         let title = notification.rawValue
         let message = notification.description()
         

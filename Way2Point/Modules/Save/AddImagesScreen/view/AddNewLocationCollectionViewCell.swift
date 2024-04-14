@@ -11,7 +11,6 @@ final class AddNewLocationCollectionViewCell: UICollectionViewCell {
     private let imageView = UIImageView()
     
     
-    
 //MARK: - Initializators
     
     override init(frame: CGRect) {
@@ -29,11 +28,9 @@ final class AddNewLocationCollectionViewCell: UICollectionViewCell {
     }
     
     
-    
 //MARK: - Setting of constraintes
     
     private func setConstraintes() {
-        
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
@@ -48,11 +45,9 @@ final class AddNewLocationCollectionViewCell: UICollectionViewCell {
     }
     
     
-    
 //MARK: - Configuration of UI
     
     private func configureUI() {
-        
         containerView.backgroundColor = .clear
         
         imageView.layer.cornerRadius = 12
@@ -61,7 +56,6 @@ final class AddNewLocationCollectionViewCell: UICollectionViewCell {
         imageView.layer.borderColor = UIColor.standartBlack.cgColor
         imageView.contentMode = .scaleAspectFill
     }
-    
     
 
 //MARK: - Add content

@@ -5,9 +5,11 @@ import UIKit
 final class LocationsCoordinator {
     
     private let navigationController: UINavigationController
+    private let appCoordinator: AppCoordinator
     
     
-    init() {
+    init(appCoordinator: AppCoordinator) {
+        self.appCoordinator = appCoordinator
         self.navigationController = UINavigationController()
     }
     
@@ -24,12 +26,18 @@ final class LocationsCoordinator {
         return navigationController
     }
     
-    
     private func showLocationDetailsScreen(_ parent: UIViewController, with location: TheLocation, _ images: [UIImage?]) {
         
         let viewModel = LocationDetailsViewModel(locations: location, images: images)
         let view = LocationDetailsView(viewModel: viewModel)
         
         parent.navigationController?.pushViewController(view, animated: true)
+        
+        viewModel.showNavigationScreen = { [weak self] coordinate in
+            parent.navigationController?.popToRootViewController(animated: false)
+            self?.appCoordinator.navigationCoordinator?.getCoordinate?(coordinate)
+            self?.appCoordinator.navigationCoordinator?.reBuilding()
+            self?.appCoordinator.tabBarController.selectedIndex = 2
+        }
     }
 }

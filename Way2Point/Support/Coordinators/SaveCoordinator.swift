@@ -28,7 +28,6 @@ final class SaveCoordinator {
         return navigationController
     }
     
-    
     private func showAddLocationScreen(_ parent: UIViewController) {
         
         let imagePicker = ImagePickerView()

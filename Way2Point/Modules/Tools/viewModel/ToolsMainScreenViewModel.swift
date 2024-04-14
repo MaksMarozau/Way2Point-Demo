@@ -5,15 +5,12 @@ protocol ToolsMainScreenViewModelProtocol {
 }
 
 
-
 //MARK: - Final class ToolsMainScreenViewModel
 
 final class ToolsMainScreenViewModel {
     
     
-    
 }
-
 
 
 //MARK: - Impemendation of the ToolsMainScreenViewModelProtocol

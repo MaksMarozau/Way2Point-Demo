@@ -4,8 +4,6 @@ final class SettingsScreenView: UIViewController {
 
     private let viewModel: SettingsScreenViewModelProtocol
     
-    
-    
     init(viewModel: SettingsScreenViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -15,11 +13,7 @@ final class SettingsScreenView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
-   
 }

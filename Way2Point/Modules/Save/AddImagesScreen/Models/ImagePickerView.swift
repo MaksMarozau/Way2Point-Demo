@@ -2,11 +2,10 @@ import UIKit
 
 //MARK: - Public enum SourceType, witch provides a choise for method of geting the image
 
-enum SourceType {
+public enum SourceType {
     case camera
     case gallery
 }
-
 
 
 //MARK: - Final class ImagePickerView
@@ -18,7 +17,6 @@ final class ImagePickerView: NSObject {
     
     private var imagePickerController = UIImagePickerController()
     var onImagePicked: ((UIImage) -> Void)?
-    
     
     
 //MARK: - The show method (present of the image picker)
@@ -34,7 +32,6 @@ final class ImagePickerView: NSObject {
         viewController.present(imagePickerController, animated: true, completion: nil)
     }
 }
-
 
 
 //MARK: - Extension for ImagePickerView with protocols UIImagePickerControllerDelegate & UINavigationControllerDelegate

@@ -13,7 +13,6 @@ final class SaveTitleView: UIViewController {
     private let instructionLabel = UILabel()
     
     
-    
 //MARK: - Initializator
     
     init(viewModel: SaveTitleViewModelProtocol) {
@@ -26,48 +25,39 @@ final class SaveTitleView: UIViewController {
     }
     
     
-    
 //MARK: - Lifecycle of controller
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.addSubviews(views: saveButton, instructionLabel)
-        
         setConstraintes()
         configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         configureNavigationBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         setCircleCornerRadius()
         setAnimations()
     }
     
     
-    
 //MARK: - Configurations of Navigation bar
     
     private func configureNavigationBar() {
-        
         navigationController?.customColorsScheme()
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Save locations"
     }
     
     
-    
 //MARK: - Setting of constraintes
     
     private func setConstraintes() {
-        
         saveButton.translatesAutoresizingMaskIntoConstraints = false
         saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         saveButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
@@ -82,11 +72,9 @@ final class SaveTitleView: UIViewController {
     }
     
     
-    
 //MARK: - Configuration of User Interface
     
     private func configureUI() {
-        
         saveButton.backgroundColor = .backgroundCell
         saveButton.setAttributedTitle(setAttributedText("Save"), for: .normal)
         saveButton.layer.borderWidth = 3
@@ -105,7 +93,6 @@ final class SaveTitleView: UIViewController {
         instructionLabel.text = "Press button\nto save the current location..."
     }
     
-    
     private func setCircleCornerRadius() {
         
         saveButton.layer.cornerRadius = saveButton.frame.height / 2
@@ -113,11 +100,9 @@ final class SaveTitleView: UIViewController {
     }
     
     
-    
 //MARK: - Attributed text
     
     private func setAttributedText(_ text: String) -> NSAttributedString {
-        
         let text = text
         let attributedString = NSMutableAttributedString(string: text)
         let range = (text as NSString).range(of: text)
@@ -130,7 +115,6 @@ final class SaveTitleView: UIViewController {
         attributedString.addAttributes(attributes, range: range)
         return attributedString
     }
-    
     
     
 //MARK: - Actions
@@ -150,8 +134,7 @@ final class SaveTitleView: UIViewController {
             self.viewModel.saveCurrentLocation()
         }
     }
-    
-    
+
     
 //MARK: - Animations
     
