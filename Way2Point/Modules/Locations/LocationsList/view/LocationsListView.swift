@@ -103,6 +103,14 @@ final class LocationsListView: UIViewController {
             self?.loadingProcessIndicator.stopAnimating()
         }
     }
+    
+    
+//MARK: - Implemendation of sounds and vibros
+    
+    private func createFeedbackEffects() {
+        SoundsManager.instance.basicSound(by: "tap")
+        VibrationsManager.instance.craftBasicVibro()
+    }
 }
 
 
@@ -135,6 +143,7 @@ extension LocationsListView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        createFeedbackEffects()
         viewModel.showDetails(with: locations[indexPath.row], images[indexPath.row])
     }
 }

@@ -455,6 +455,7 @@ final class LocationDetailsView: UIViewController {
 //MARK: - Actions
     
     @objc private func favoriteTapped() {
+        createFeedbackEffects()
         favoriteButton.isSelected.toggle()
         if favoriteButton.isSelected {
             favoriteButton.setBackgroundImage(UIImage(systemName: "star.fill"), for: .normal)
@@ -464,18 +465,22 @@ final class LocationDetailsView: UIViewController {
     }
     
     @objc private func editTapped() {
+        createFeedbackEffects()
         print("Edit tapped")
     }
     
     @objc private func ratingTapped() {
+        createFeedbackEffects()
         print("Rating tapped")
     }
     
     @objc private func shareTapped() {
+        createFeedbackEffects()
         print("Share tapped")
     }
     
     @objc private func moveButtonTapped() {
+        createFeedbackEffects()
         viewModel.moveToNavigationScreen()
     }
     
@@ -502,6 +507,14 @@ final class LocationDetailsView: UIViewController {
         nameLocationLable.text = name
         gpsLable.text = "GPS: \nlat: \(longitude), \nlong: \(latitude)"
         descriptionLabel.text = description
+    }
+    
+    
+//MARK: - Implemendation of sounds and vibros
+            
+    private func createFeedbackEffects() {
+        SoundsManager.instance.basicSound(by: "tap")
+        VibrationsManager.instance.craftBasicVibro()
     }
 }
 

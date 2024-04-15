@@ -76,6 +76,7 @@ final class AddNewLocationView: UIViewController {
         navigationItem.title = "Add new"
         
         let saveButton = UIBarButtonItem(systemItem: .save, primaryAction: UIAction(handler: { _ in
+            self.createHardFeedbackEffects()
             let name = self.nameOfLocationTextField.text ?? ""
             let description = self.descriptionOfLocationTextView.text ?? ""
             self.viewModel.saveCurrentLocation(with: name, description)
@@ -85,6 +86,7 @@ final class AddNewLocationView: UIViewController {
         navigationController?.topViewController?.navigationItem.rightBarButtonItem = saveButton
         
         let closeButton = UIBarButtonItem(systemItem: .close, primaryAction: UIAction(handler: { _ in
+            self.createStandartFeedbackEffects()
             UIView.animate(withDuration: 0.7) {
                 self.view.alpha = 0
             } completion: { _ in
@@ -284,7 +286,6 @@ final class AddNewLocationView: UIViewController {
     }
     
     @objc private func keyboardShow(_ sender: Notification) {
-        print("Show")
         if let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHight = keyboardRectangle.height
@@ -299,7 +300,6 @@ final class AddNewLocationView: UIViewController {
     }
     
     @objc private func keyboardHide() {
-        print("Hide")
         if view.frame.origin.y != 0 {
             view.frame.origin.y = 0
             
@@ -323,6 +323,19 @@ final class AddNewLocationView: UIViewController {
         viewModel.showNotificationsAlert = { [weak self] alert in
             self?.present(alert, animated: true)
         }
+    }
+    
+    
+//MARK: - Implemendation of sounds and vibros
+                    
+    private func createHardFeedbackEffects() {
+        SoundsManager.instance.basicSound(by: "hardTap")
+        VibrationsManager.instance.craftBasicVibro()
+    }
+    
+    private func createStandartFeedbackEffects() {
+        SoundsManager.instance.basicSound(by: "tap")
+        VibrationsManager.instance.craftBasicVibro()
     }
 }
 
