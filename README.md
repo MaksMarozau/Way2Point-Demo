@@ -23,8 +23,10 @@ The following frameworks were used in the work: UIKit, CoreData, CoreLocation, C
 
 ****************************************************************************************************
 
-![Simulator Screenshot - iPhone 15 Pro - 2024-04-15 at 03 37 26](https://github.com/MaksMarozau/Way2Point-Demo/assets/144702102/76b1cc09-d1b1-40c8-b089-8482d04d8e54)
-![Simulator Screenshot - iPhone 15 Pro - 2024-04-15 at 03 38 01](https://github.com/MaksMarozau/Way2Point-Demo/assets/144702102/e7d0b718-b4b5-4418-bcef-24267607d0e3)
-![Simulator Screenshot - iPhone 15 Pro - 2024-04-15 at 03 35 33](https://github.com/MaksMarozau/Way2Point-Demo/assets/144702102/91b7a46d-21af-4896-a904-afdec47992ea)
-![Simulator Screenshot - iPhone 15 Pro - 2024-04-15 at 03 31 35](https://github.com/MaksMarozau/Way2Point-Demo/assets/144702102/6e122865-4bce-47c3-8d7c-3165669a2d53)
-![Simulator Screenshot - iPhone 15 Pro - 2024-04-15 at 03 37 46](https://github.com/MaksMarozau/Way2Point-Demo/assets/144702102/2c9fba1b-383b-44ad-a510-179a71942548)
+![Simulator Screenshot - iPhone 15 Pro - 2024-04-15 at 03 38 01](https://github.com/MaksMarozau/Way2Point-Demo/assets/144702102/852e1192-a4d5-47ac-a253-9155e520db3a)
+![Simulator Screenshot - iPhone 15 Pro - 2024-04-15 at 03 37 46](https://github.com/MaksMarozau/Way2Point-Demo/assets/144702102/e2a8e3da-bcb5-4afa-be83-111b22ed943a)
+![Simulator Screenshot - iPhone 15 Pro - 2024-04-15 at 03 37 26](https://github.com/MaksMarozau/Way2Point-Demo/assets/144702102/d0702142-65c7-48e2-9cc4-1e6277ba06b4)
+![Simulator Screenshot - iPhone 15 Pro - 2024-04-15 at 03 35 33](https://github.com/MaksMarozau/Way2Point-Demo/assets/144702102/b9ca295b-c7cf-4d31-a234-835b695755f8)
+![Simulator Screenshot - iPhone 15 Pro - 2024-04-15 at 03 31 35](https://github.com/MaksMarozau/Way2Point-Demo/assets/144702102/e60ce860-8347-4af9-b7de-802d50046f22)
+
+
