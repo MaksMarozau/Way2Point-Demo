@@ -120,6 +120,7 @@ final class SaveTitleView: UIViewController {
 //MARK: - Actions
     
     @objc private func saveTouchDown(_ sender: UIButton) {
+        createFeedbackEffects()
         UIView.animate(withDuration: 0.1) {
             sender.layer.shadowOffset = CGSize(width: -5, height: -5)
             sender.backgroundColor = UIColor.backgroundBar
@@ -127,6 +128,7 @@ final class SaveTitleView: UIViewController {
     }
     
     @objc private func saveTouchUp(_ sender: UIButton) {
+        createFeedbackEffects()
         UIView.animate(withDuration: 0.1) {
             sender.layer.shadowOffset = CGSize(width: 5, height: 5)
             sender.backgroundColor = .backgroundCell
@@ -144,5 +146,13 @@ final class SaveTitleView: UIViewController {
         } completion: { _ in
             self.instructionLabel.alpha = 1
         }
+    }
+    
+    
+//MARK: - Implemendation of sounds and vibros
+                
+    private func createFeedbackEffects() {
+        SoundsManager.instance.basicSound(by: "hardTap")
+        VibrationsManager.instance.craftBasicVibro()
     }
 }

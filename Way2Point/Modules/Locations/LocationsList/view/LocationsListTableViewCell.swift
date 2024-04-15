@@ -247,10 +247,12 @@ class LocationsListTableViewCell: UITableViewCell {
 //MARK: - Actions
     
     @objc private func topTapped() {
+        createFeedbackEffects()
         print("TOPTOP")
     }
     
     @objc private func openTapped() {
+        createFeedbackEffects()
         openDescriptionButton.isSelected.toggle()
         if openDescriptionButton .isSelected {
             openDescriptionButton.setImage(UIImage(systemName: "chevron.compact.up"), for: .normal)
@@ -278,5 +280,13 @@ class LocationsListTableViewCell: UITableViewCell {
         gpsOfLocationsLabel.text = "gps: \(longitude), \(latitude)"
         descriptionLabel.text = description
         photoImageView.image = image
+    }
+    
+    
+//MARK: - Implemendation of sounds and vibros
+        
+    private func createFeedbackEffects() {
+        SoundsManager.instance.basicSound(by: "tap")
+        VibrationsManager.instance.craftBasicVibro()
     }
 }
